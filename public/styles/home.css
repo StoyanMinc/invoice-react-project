@@ -1,8 +1,11 @@
 .invoices-container {
-    display: flex;
+    display: flex
+;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0px 25px 25px;
+    /* padding: 0px 25px 0px; */
+    margin: 0 25px;
+    flex-wrap: wrap;
 }
 
 .invoice-container {
@@ -52,11 +55,14 @@
 }
 
 .tables-container {
-    display: flex;
-    justify-content: center;
-    padding: 0px 25px 25px;
-    flex-wrap: wrap;
-    gap: 50px;
+    display: flex
+    ;
+        justify-content: center;
+        /* padding: 0px 10px 0; */
+        flex-wrap: wrap;
+        gap: 50px;
+        background: yellow;
+        margin: 25px 25px 0;
 
 }
 
@@ -65,7 +71,7 @@
     padding: 0 20px;
     background: white;
     border: 1px solid #EBEBEB;
-    width: calc(50% - 40px);
+    width: calc(50% - 25px);
 
 }
 
