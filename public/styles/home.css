@@ -1,9 +1,7 @@
 .invoices-container {
-    display: flex
-;
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    /* padding: 0px 25px 0px; */
     margin: 0 25px;
     flex-wrap: wrap;
 }
@@ -55,14 +53,11 @@
 }
 
 .tables-container {
-    display: flex
-    ;
-        justify-content: center;
-        /* padding: 0px 10px 0; */
-        flex-wrap: wrap;
-        gap: 50px;
-        background: yellow;
-        margin: 25px 25px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 25px 25px 0;
 
 }
 
@@ -78,8 +73,6 @@
 .tables-container h4 {
     padding: 15px 0;
     color: #505050;
-    /* width: calc(100% - 30px); */
-
 }
 
 table {
@@ -93,7 +86,6 @@ table {
 table thead {
     background-color: #F9FBFA;
     color: #505050;
-    /* border: none; */
     font-weight: 600;
 }
 
