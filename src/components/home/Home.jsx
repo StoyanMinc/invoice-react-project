@@ -1,4 +1,14 @@
+import { invoiceService } from "../../api/invoice-api"
+
 export default function Home() {
+
+    const getInvoices = async () => {
+        const data = await invoiceService.getAllInvoices();
+        console.log(data);
+    }
+
+    getInvoices();
+    
     return (
         <section className="home-section">
             <div className="invoices-container">

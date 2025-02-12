@@ -57,7 +57,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 50px;
-    margin: 25px 25px 0;
+    margin: 25px 0;
 
 }
 
@@ -75,7 +75,7 @@
     color: #505050;
 }
 
-table {
+.tables-container table {
     text-align: center;
     border-collapse: collapse;
     font-size: 12px;
@@ -83,17 +83,17 @@ table {
     width: 100%;
 }
 
-table thead {
+.tables-container table thead {
     background-color: #F9FBFA;
     color: #505050;
     font-weight: 600;
 }
 
-table td {
+.tables-container table td {
     padding: 15px 20px;
 }
 
-table tbody td {
+.tables-container table tbody td {
     border: 1px solid #EBEBEB;
     font-weight: 500;
 }
