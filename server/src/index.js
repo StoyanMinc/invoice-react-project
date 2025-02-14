@@ -26,6 +26,10 @@ app.post('/create-invoice', async (req, res) => {
    res.send(JSON.stringify({}))
 })
 
+app.get('/test', (req, res) => {
+    res.json({message: 'test'});
+})
+
 
 
 app.listen(5001, () => console.log('Server is listening on port http://localhost:5001'))

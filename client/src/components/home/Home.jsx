@@ -1,7 +1,14 @@
+import { useEffect } from "react"
 import { outInvoicecService } from "../../api/invoice-api"
 
 export default function Home() {
-
+    useEffect(() => {
+        (async () => {
+            const response = await fetch('http://localhost:5001/test');
+            const data = await response.json();
+            console.log(data);
+        })();
+    },[])
     return (
         <section className="home-section">
             <div className="invoices-container">
