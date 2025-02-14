@@ -1,0 +1,31 @@
+.sub-header-documents {
+    height: 60px;
+    float: left;
+    width: 100%;
+    background-color: white;
+    line-height: 60px;
+    padding: 0 20px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #E5E5E5;
+    font-size: 12px;
+}
+
+.sub-header-documents nav {
+    float: left;
+    font-weight: 600;
+
+}
+
+.sub-header-documents nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: black;
+    text-decoration: none;
+}
+
+.active {
+    color: #05A8F5;
+}
