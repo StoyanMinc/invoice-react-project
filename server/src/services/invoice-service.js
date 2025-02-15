@@ -1,10 +1,17 @@
 import Invoice from "../models/Invoice.js";
 
-export const getAllInvoices = () => Invoice.find();
+const getAllInvoices = () => Invoice.find();
 
-export const createInvoice = (invoiceData) => {
+const getLastInvoices = () => Invoice.find().sort({ createdAt: -1 }).limit(10);
 
+const createInvoice = (invoiceData) => {
     invoiceData.totalPrice = Number(invoiceData.totalPrice);
     invoiceData.invoiceNumber = Number(invoiceData.invoiceNumber);
-   return Invoice.create(invoiceData)
+    return Invoice.create(invoiceData)
 };
+
+export const invoiceService = {
+    getAllInvoices,
+    getLastInvoices,
+    createInvoice
+}

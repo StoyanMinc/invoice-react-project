@@ -7,9 +7,12 @@ const createInvoice = (values) => {
     post(`${BASE_URL}/create-invoice`, values);
 }; 
 
-const getAllInvoices = () => get(BASE_URL);
+const getAllInvoices = () => get(BASE_URL + '/sales');
+
+const getLatestInvoices = () => get(BASE_URL);
 
 export const outInvoicecService = {
     createInvoice,
     getAllInvoices,
+    getLatestInvoices,
 };

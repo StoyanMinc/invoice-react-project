@@ -1,14 +1,11 @@
-import { useEffect } from "react"
 import { outInvoicecService } from "../../api/invoice-api"
+import { useGetLatestOutInvoices } from "../../hooks/invoices-hooks/useOutInvoices";
 
 export default function Home() {
-    useEffect(() => {
-        (async () => {
-            const response = await fetch('http://localhost:5001/test');
-            const data = await response.json();
-            console.log(data);
-        })();
-    },[])
+
+    const lastOutInvoices = useGetLatestOutInvoices();
+    const totalInvoicesPrice = lastOutInvoices.map(i => i.totalPrice).reduce((a,c )=> a+c,0);
+
     return (
         <section className="home-section">
             <div className="invoices-container">
@@ -24,7 +21,7 @@ export default function Home() {
                         <h3>Изходни фактури</h3>
                         <i className="arrow-icon red-arrow"></i>
                     </div>
-                    <p><span>0</span>лв</p>
+                    <p>{totalInvoicesPrice.toFixed(2)}лв</p>
                 </div>
                 <div className="invoice-container">
                     <h3>Задължения към нас</h3>
@@ -42,7 +39,7 @@ export default function Home() {
 
             <div className="tables-container">
                 <div className="left-table">
-                    <h4>Последни 10 изходящи фактури</h4>
+                    <h4>Последни {lastOutInvoices.length} изходящи фактури</h4>
                     <table>
                         <thead>
                             <tr>
@@ -53,51 +50,22 @@ export default function Home() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>06.02.2025</td>
-                                <td>"Кристал Лес - 92"ЕООД</td>
-                                <td>16.80лв</td>
-                                <td className="td-paid" ><span className=" table-paid-info unpaid">чака плащане</span></td>
-                            </tr>
-                            <tr>
-                                <td>05.02.2025</td>
-                                <td>Алириза Алиризов Кордов</td>
-                                <td>120.96</td>
-                                <td><span className="table-paid-info paid">платена</span></td>
-                            </tr>
-                            <tr>
-                                <td>05.02.2025</td>
-                                <td>Семко Милев Милев</td>
-                                <td>262.92</td>
-                                <td><span className="table-paid-info paid">платена</span></td>
-                            </tr>
-                            <tr>
-                                <td>03.02.2025</td>
-                                <td>"ГЕЛЕВ-ЕВГ"ЕООД</td>
-                                <td>2040.00</td>
-                                <td><span className=" table-paid-info unpaid">чака плащане</span></td>
-                            </tr>
-                            <tr>
-                                <td>03.02.2025</td>
-                                <td>"ЕМ ТИ ЕМ груп 76"ЕООД</td>
-                                <td>132.96</td>
-                                <td><span className="table-paid-info paid">платена</span></td>
-                            </tr>
-                            <tr>
-                                <td>03.02.2025</td>
-                                <td>"СЕВДАЛИНА" ЕООД</td>
-                                <td>241.93</td>
-                                <td ><span className="table-paid-info paid">платена</span></td>
-                            </tr>
-                            <tr>
-                                <td>03.02.2025</td>
-                                <td>Хасан Али Хърьов</td>
-                                <td>120.96</td>
-                                <td><span className="table-paid-info paid">платена</span></td>
-                            </tr>
+
+                            {lastOutInvoices.map(i =>
+                                <tr key={i._id}>
+                                    <td>{i.invoiceDate}</td>
+                                    <td>{i.client}</td>
+                                    <td>{i.totalPrice.toFixed(2)}лв</td>
+                                    <td className="td-paid" ><span className=" table-paid-info unpaid">чака плащане</span></td>
+                                </tr>
+                            )}
+
+
+
                         </tbody>
                     </table>
                 </div>
+
                 <div className="right-table">
                     <h4>Последни 10 входящи фактури</h4>
                     <table>

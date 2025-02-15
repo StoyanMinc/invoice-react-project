@@ -12,6 +12,7 @@ const payment = {
 
 export default function Sales() {
     const invoices = useGetOutInvoices();
+    
     const navigate = useNavigate();
     const goToAddInvoice = () => navigate('/add-invoice');
 

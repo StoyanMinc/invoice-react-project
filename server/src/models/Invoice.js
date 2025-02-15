@@ -11,7 +11,7 @@ const invoiceShema = new Schema({
     bankChoise: String,
     totalPrice: Number,
     products: [],
-});
+}, {timestamps: true});
 
 const Invoice = model('Invoice', invoiceShema);
 
