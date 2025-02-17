@@ -27,7 +27,7 @@ export default function Header() {
                     <span className="user-name" >Тодор Тодоров</span>
                 </div>
             </header>
-            {currentPath.includes('documents') && <DocumentsHeader />}
+            {currentPath.startsWith('/documents') && <DocumentsHeader />}
         </>
     )
 }

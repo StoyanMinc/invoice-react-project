@@ -12,15 +12,11 @@ const payment = {
 
 export default function Sales() {
     const invoices = useGetOutInvoices();
-    
-    const navigate = useNavigate();
-    const goToAddInvoice = () => navigate('/add-invoice');
 
-    console.log(invoices);
+    const navigate = useNavigate();
+    const goToAddInvoice = () => navigate('/documents/sales/add-invoice');
 
     const totalInvoicesPrice = invoices.map(i => i.totalPrice).reduce((a, c) => a + c, 0);
-    console.log(totalInvoicesPrice);
-    console.log(invoices);
 
     return (
         <div className="documents-sales-container">
@@ -42,11 +38,11 @@ export default function Sales() {
                     </thead>
                 </table>
             </div>
-            <div className="documents-output-ivoices-holder">
-                <div className="documents-output-ivoices-holder-title">
+            <div className="documents-output-invoices-holder">
+                <div className="documents-output-invoices-holder-title">
                     <h3>Изходящи фактури ({invoices.length})</h3>
                     <div className="documents-output-invoices-options">
-                        <input type="text" className="documents-output-ivoicec-search" placeholder="Търсене"/>
+                        <input type="text" className="documents-output-invoice-search" placeholder="Търсене" />
                         <button onClick={goToAddInvoice} className="submit-add-invoice-btn" >Добавяне на фактура</button>
                         <button className="documents-output-take-reference">Справка</button>
                     </div>
@@ -81,19 +77,19 @@ export default function Sales() {
                                         : <td>В брой</td>
                                     } */}
                                     <td>{payment[invoice.paymentType]}</td>
-                                    
+
                                     <td ><span className="table-paid-info unpaid">чака плащане</span></td>
                                     <td> 0 0 0 0</td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
+                    <div className="total-invoices">
+                        <span className="total-invoices-span">Общо фактури: {invoices.length}</span>
+                        <span className="total-money-span">Тотал: {totalInvoicesPrice.toFixed(2)} лв</span>
+                    </div>
                 </div>
 
-                <div className="total-invoices">
-                    <span className="total-invoices-span">Общо фактури: {invoices.length}</span>
-                    <span className="total-money-span">Тотал: {totalInvoicesPrice.toFixed(2)} лв</span>
-                </div>
             </div>
         </div>
     )

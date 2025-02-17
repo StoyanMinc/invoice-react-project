@@ -44,9 +44,11 @@ export default function AddInvoice() {
 
         setProducts(newProducts);
     };
+
     const subTotal = products.reduce((total, product) => {
         return total + product.qty * product.unitPrice
     }, 0);
+
     const DDS = subTotal * 0.2;
     const totalPrice = subTotal + DDS;
 
@@ -58,12 +60,10 @@ export default function AddInvoice() {
             products
         };
         try {
-            console.log(requestData);
             await outInvoicecService.createInvoice(requestData);
             navigate('/documents/sales');
         } catch (error) {
             console.log(error.message);
-
         }
     };
 
@@ -85,7 +85,7 @@ export default function AddInvoice() {
                         <input className="invoice-add-input" type="text" name="mol" id="mol" {...register('mol')} />
                     </div>
 
-                    <div className="input-container">
+                    <div className="input-container col-2">
                         <label htmlFor="documentType">Тип на документ</label>
                         <select className="invoice-add-input" name="documentType" id="documentType" {...register('documentType')}>
                             <option value="invoice">Фактура</option>
@@ -93,12 +93,12 @@ export default function AddInvoice() {
                         </select>
                     </div>
 
-                    <div className="input-container">
+                    <div className="input-container col-2">
                         <label htmlFor="invoiceNumber">Фактура номер</label>
                         <input className="invoice-add-input" type="text" name="invoiceNumber" id="invoiceNumber" {...register('invoiceNumber')} />
                     </div>
 
-                    <div className="input-container">
+                    <div className="input-container col-2">
                         <label htmlFor="invoiceDate">Дата на фактура</label>
                         <input className="invoice-add-input" type="text" name="invoiceDate" id="invoiceDate" {...register('invoiceDate')} />
                     </div>

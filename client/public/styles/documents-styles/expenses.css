@@ -1,11 +1,111 @@
-/* .incoming-invoices-holder {
-    display: flex;
-    flex-direction: column;
-    border: 1px  solid black;
+.documents-income-invoices-holder {
+    float: left;
+    width: calc(100% - 50px);
+    padding: 0px 20px 20px 20px;
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    margin: 20px 25px;
+    font-size: 12px;
 }
 
-.documents-input-ivoices-holder-title {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-} */
+.documents-income-invoices-holder-title {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.documents-income-invoices-holder-title h3 {
+    float: left;
+    line-height: 30px;
+}
+
+.documents-income-invoices-holder-title .documents-income-invoices-options {
+    float: right;
+}
+
+.documents-income-invoices-options input {
+    width: 200px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid gray;
+    background-image: url(../../assets/magnifying-glass-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 19px;
+    background-position: left;
+    background-position-x: 7px;
+    text-align: left;
+    padding-left: 30px;
+}
+
+
+
+.documents-income-invoices-options .documents-income-take-reference,
+.documents-income-invoices-options .submit-add-invoice-btn {
+    background-color: #05A8F5;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    margin-left: 10px;
+}
+
+.documents-income-take-reference {
+    
+        background-image: url(../../assets/chart-simple-solid.svg);
+        background-repeat: no-repeat;
+        background-size: 15px;
+        padding: 8px 8px 8px 25px;
+        background-position-y: 5px;
+        background-position-x: 5px;
+}
+
+.submit-add-invoice-btn {
+    background-image: url(../../assets/plus-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 18px;
+    padding: 8px 8px 8px 30px;
+    background-position-y: 4px;
+    background-position-x: 5px;
+}
+.documents-expenses-table {
+    float: left;
+    margin-top: 10px;
+    background-color: white;
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.income-tables-container {
+    float: left;
+    width: 100%;
+    border: 1px solid #E5E5E5;
+}
+.documents-sales-table table {
+    border-collapse: collapse;
+}
+.documents-expenses-table  thead{
+    background-color: #F9FBFA;
+    color: #505050;
+    font-weight: 600;
+}
+
+.documents-expenses-table th {
+    padding: 10px 0;
+}
+
+.documents-expenses-table  td {
+    padding: 15px 20px;
+    border: 1px solid #E5E5E5;
+}
+
+.documents-sales-container .total-invoices {
+    float: left;
+    background-color: #F9FBFA;
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}

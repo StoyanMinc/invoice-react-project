@@ -1,96 +1,9 @@
-/* .documents-sales-container {
-    display: flex;
-    background-color: white;
-    margin-top: 30px;
-    margin: 30px 10px;
-    justify-content: space-around;
-    font-size: 11px;
-    background-color: #F7FBFE;
-}
-
-.documents-output-ivoices-holder-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.documents-type-document {
-    font-weight: 600;
-    text-align: left;
-    width: 260px;
-    background-color: white;
-    display: flex;
-    height: 150px;
-}
-
-.documents-type-document table {
-    text-align: left;
-}
-
-.documents-type-document table th {
-    padding: 10px 10px;
-}
-
-.documents-type-document table td {
-    padding: 5px 10px;
-}
-
-.documents-type-document .active-sales-type {
-    background-color: #05A8F5;
-    color: white;
-}
-
-
-.documents-output-ivoices-holder {
-    background-color: white;
-    padding: 20px;
-}
-
-.documents-output-ivoices-holder-title h3 {
-    font-size: 18px;
-}
-
-
-.documents-output-invoices-options {
-    display: flex;
-    gap: 10px;
-}
-
-.documents-output-invoices-options input {
-    width: 200px;
-    border-radius: 6px;
-    border: 1px solid gray;
-}
-
-.documents-output-invoices-options button {
-    background-color: #05A8F5;
-    border: none;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    color: white;
-    padding: 10px;
-}
-.documents-salse-table {
-    margin-top: 10px;
-}
-.documents-salse-table thead th {
-    padding: 15px;
-}
-
-.total-invoices {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    background-color: #F9FBFA;
-    padding: 15px 100px 15px 15px;
-} */
-
 .documents-sales-container {
     float: left;
     width: calc(100% - 40px);
     height: 100%;
     margin: 25px 20px;
+    font-size: 12px;
 }
 
 .documents-type-document {
@@ -129,27 +42,35 @@
     color: white;
 }
 
-.documents-output-ivoices-holder {
+.documents-output-invoices-holder {
     float: left;
     width: calc(100% - 300px);
     padding: 20px;
     background-color: white;
     border: 1px solid #E5E5E5;
+    padding: 0px 20px 20px;
 }
-
-.documents-output-ivoices-holder-title {
+.documents-output-invoices-holder-title {
     float: left;
     width: 100%;
+    margin-top: 10px;
 }
 
-.documents-output-ivoices-holder-title h3 {
+.documents-output-invoices-holder-title h3 {
     float: left;
+    font-size: 17px;
+    line-height: 30px;
 }
 
-.documents-output-ivoices-holder-title .documents-output-invoices-options {
+.documents-output-invoices-holder-title .documents-output-invoices-options {
     float: right;
 }
-
+.tables-sales-container {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #E5E5E5;
+}
 .documents-output-invoices-options input {
     width: 200px;
     height: 30px;
@@ -178,13 +99,12 @@
 }
 
 .documents-output-take-reference {
-    
-        background-image: url(../../assets/chart-simple-solid.svg);
-        background-repeat: no-repeat;
-        background-size: 15px;
-        padding: 8px 8px 8px 25px;
-        background-position-y: 5px;
-        background-position-x: 5px;
+    background-image: url(../../assets/chart-simple-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding: 8px 8px 8px 25px;
+    background-position-y: 5px;
+    background-position-x: 5px;
 }
 
 .submit-add-invoice-btn {
@@ -195,19 +115,21 @@
     background-position-y: 4px;
     background-position-x: 5px;
 }
+
 .documents-salse-table {
     float: left;
-    margin-top: 10px;
     background-color: white;
     width: 100%;
     border: 1px solid #E5E5E5;
     border-collapse: collapse;
-
+    text-align: center;
 }
+
 .documents-sales-table table {
     border-collapse: collapse;
 }
-.documents-salse-table  thead{
+
+.documents-salse-table thead {
     background-color: #F9FBFA;
     color: #505050;
     font-weight: 600;
@@ -217,12 +139,12 @@
     padding: 10px 0;
 }
 
-.documents-salse-table  td {
+.documents-salse-table td {
     padding: 15px 20px;
     border: 1px solid #E5E5E5;
 }
 
-.documents-sales-container .total-invoices {
+ .total-invoices {
     float: left;
     background-color: #F9FBFA;
     width: 100%;

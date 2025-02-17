@@ -9,7 +9,7 @@ import Catalog from './components/catalog/Catalog';
 import Employees from './components/employees/Employees';
 import GpsSystem from './components/gpsSystem/GpsSystem';
 import AddInvoice from './components/documents/add-invoice/AddInvoice';
-import AddIncomingInvoice from './components/documents/sales/add-incoming-invoice/AddIncomingInvoice';
+import AddIncomingInvoice from './components/documents/add-incoming-invoice/AddIncomingInvoice';
 function App() {
     return (
         <div className="container">
@@ -18,9 +18,9 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path='/documents/sales' element={<Documents />} />
+                    <Route path='/documents/sales/add-invoice' element={<AddInvoice />} />
                     <Route path='/documents/expenses' element={<Expenses />} />
-                    <Route path='/add-invoice' element={<AddInvoice />} />
-                    <Route path='/add-incoming-invoice' element={<AddIncomingInvoice />} />
+                    <Route path='/documents/expenses/add-incoming-invoice' element={<AddIncomingInvoice />} />
                     <Route path='/counterparties' element={<Counterparties />} />
                     <Route path='/warehouse' element={<Warehouse />} />
                     <Route path='/catalog' element={<Catalog />} />

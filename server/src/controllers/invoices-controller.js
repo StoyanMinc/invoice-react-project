@@ -14,7 +14,6 @@ invoicesController.get('/sales', async (req, res) => {
 });
 
 invoicesController.post('/create-invoice', async (req, res) => {
-    console.log(req.body)
     const createtInvoice = await invoiceService.createInvoice(req.body)
     res.json(createtInvoice);
 });
