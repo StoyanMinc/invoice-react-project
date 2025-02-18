@@ -1,18 +1,21 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { outInvoicecService } from "../../../api/invoice-api.js";
-import { useNavigate } from "react-router-dom";
+import formatDate from "../../../utils/formatDate.js";
+import calculateExpireDate from "../../../utils/calculateExpireDate.js";
 
 export default function AddInvoice() {
     const navigate = useNavigate();
-    const { register, getValues } = useForm({
+    const { register, handleSubmit } = useForm({
         defaultValues: {
             client: '',
             mol: '',
             documentType: '',
             invoiceNumber: '',
             invoiceDate: '',
+            expireDate: '',
             paymentTerm: '',
             paymentType: '',
             bankChoise: ''
@@ -52,14 +55,15 @@ export default function AddInvoice() {
     const DDS = subTotal * 0.2;
     const totalPrice = subTotal + DDS;
 
-    const submitHandlder = async () => {
-        const formData = getValues();
+    const submitHandlder = async (values) => {
         const requestData = {
-            ...formData,
+            ...values,
             totalPrice,
             products
         };
         try {
+            requestData.invoiceDate = formatDate(requestData.invoiceDate);
+            requestData.expireDate = calculateExpireDate(requestData.invoiceDate, requestData.paymentTerm);
             await outInvoicecService.createInvoice(requestData);
             navigate('/documents/sales');
         } catch (error) {
@@ -73,7 +77,7 @@ export default function AddInvoice() {
             <div className="add-invoice-form-contaier">
 
                 <h4>Добавяне на изходна фактура (12312312)</h4>
-                <form action="POST" className="add-invoice-form">
+                <form action="POST" className="add-invoice-form" onSubmit={handleSubmit(submitHandlder)}>
 
                     <div className="input-container col-3">
                         <label htmlFor="client">Клиент</label>
@@ -106,8 +110,8 @@ export default function AddInvoice() {
                     <div className="input-container col-3">
                         <label htmlFor="paymentTerm">Срок на плащане</label>
                         <select className="invoice-add-input" name="paymentTerm" id="paymentTerm" {...register('paymentTerm')}>
-                            <option value="short">15 дни</option>
-                            <option value="long">1 месец</option>
+                            <option value="15">15 дни</option>
+                            <option value="30">1 месец</option>
                         </select>
                     </div>
 
@@ -145,7 +149,7 @@ export default function AddInvoice() {
                     <tbody>
                         {products.map((product, index) => (
                             <tr key={index}>
-                                <td className="table-n">{index+1}</td>
+                                <td className="table-n">{index + 1}</td>
 
                                 <td className="long-table-td">
                                     <input type="text" value={product.name} onChange={(e) => handleInputChange(index, "name", e.target.value)} />
@@ -192,7 +196,7 @@ export default function AddInvoice() {
             <div className='add-invoice-footer'>
                 <button className="button-go-back" >Назад</button>
                 <button className="action-button" >Добавяне и печат</button>
-                <button className="action-button" type="button" onClick={submitHandlder}>Добавяне</button>
+                <button className="action-button" type="button" onClick={handleSubmit(submitHandlder)}>Добавяне</button>
             </div>
         </div>
     )

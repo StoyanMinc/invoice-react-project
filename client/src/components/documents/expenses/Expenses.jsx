@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom"
+import { useGetIncomingInvoices } from "../../../hooks/invoices-hooks/useIncomingInvoices";
 
 export default function Expenses() {
 
     const navigate = useNavigate();
 
-
+    const incomingInvoices = useGetIncomingInvoices();
+    const totalInvoicesPrice = incomingInvoices.map(i => i.sumForPay).reduce((a, c) => a + c, 0);
     return (
 
         <div className="documents-income-invoices-holder">
@@ -30,38 +32,21 @@ export default function Expenses() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1111111111</td>
-                            <td>11.02.2025</td>
-                            <td>Пламен Костов</td>
-                            <td>2200.00лв.</td>
-                            <td>30.05.2025</td>
-                            <td ><span className="table-paid-info unpaid">чака плащане</span></td>
-                            <td> 0 0 0 0</td>
-                        </tr>
-                        <tr>
-                            <td>1111111111</td>
-                            <td>11.02.2025</td>
-                            <td>Пламен Костов</td>
-                            <td>2200.00лв.</td>
-                            <td>30.05.2025</td>
-                            <td ><span className="table-paid-info unpaid">чака плащане</span></td>
-                            <td> 0 0 0 0</td>
-                        </tr>
-                        <tr>
-                            <td>1111111111</td>
-                            <td>11.02.2025</td>
-                            <td>Пламен Костов</td>
-                            <td>2200.00лв.</td>
-                            <td>30.05.2025</td>
-                            <td ><span className="table-paid-info paid">платена</span></td>
-                            <td> 0 0 0 0</td>
-                        </tr>
+                        {incomingInvoices.map(invoice =>
+                            <tr key={invoice._id}>
+                                <td><a target="_blank" href={`http://localhost:5001/${invoice.invoiceFile}`}>{invoice.invoiceNumber}</a></td>
+                                <td>{invoice.invoiceDate}</td>
+                                <td>{invoice.supplier}</td>
+                                <td>{invoice.sumForPay.toFixed(2)}лв.</td>
+                                <td>123</td>
+                                <td ><span className="table-paid-info unpaid">чака плащане</span></td>
+                                <td> 0 0 0 0</td>
+                            </tr>)}
                     </tbody>
                 </table>
                 <div className="total-invoices">
-                    <span className="total-invoices-span">Общо фактури: 0</span>
-                    <span className="total-money-span">Тотал: 0 лв</span>
+                    <span className="total-invoices-span">Общо фактури: {incomingInvoices.length}</span>
+                    <span className="total-money-span">Тотал: {totalInvoicesPrice} лв</span>
                 </div>
             </div>
         </div>

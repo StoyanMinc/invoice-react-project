@@ -1,9 +1,5 @@
 import { useNavigate } from "react-router-dom"
 import { useGetOutInvoices } from "../../../hooks/invoices-hooks/useOutInvoices";
-const banks = {
-    dsk: 'ДСК',
-    obb: 'ОББ'
-}
 
 const payment = {
     inCash: 'В брой',
@@ -17,7 +13,7 @@ export default function Sales() {
     const goToAddInvoice = () => navigate('/documents/sales/add-invoice');
 
     const totalInvoicesPrice = invoices.map(i => i.totalPrice).reduce((a, c) => a + c, 0);
-
+    
     return (
         <div className="documents-sales-container">
             <div className="documents-type-document">
@@ -72,10 +68,6 @@ export default function Sales() {
                                     }
                                     <td>{invoice.client}</td>
                                     <td><span>{invoice.totalPrice.toFixed(2)}</span>лв</td>
-                                    {/* {invoice.paymentType === 'bankTransfer'
-                                        ? <td>Банков трансфер</td>
-                                        : <td>В брой</td>
-                                    } */}
                                     <td>{payment[invoice.paymentType]}</td>
 
                                     <td ><span className="table-paid-info unpaid">чака плащане</span></td>

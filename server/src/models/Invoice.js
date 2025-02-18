@@ -6,6 +6,7 @@ const invoiceShema = new Schema({
     documentType: String,
     invoiceNumber: Number,
     invoiceDate: String,
+    expireDate: String,
     paymentTerm: String,
     paymentType: String,
     bankChoise: String,

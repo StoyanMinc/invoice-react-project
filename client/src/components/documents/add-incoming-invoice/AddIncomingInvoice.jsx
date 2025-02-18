@@ -1,8 +1,17 @@
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
+import { incomingInvoicecService } from '../../../api/incoming-invoice-api';
+import calculateExpireDate from '../../../utils/calculateExpireDate';
+import formatDate from '../../../utils/formatDate';
 
 export default function AddIncomingInvoice() {
 
-    const { register, handleSubmit, getValues } = useForm({
+    const navigate = useNavigate();
+    const [fileBase64, setFileBase64] = useState("");
+
+    const { register, handleSubmit, setValue } = useForm({
         defaultValues: {
             supplier: '',
             invoiceNumber: 0,
@@ -11,10 +20,36 @@ export default function AddIncomingInvoice() {
             paymentTerm: '',
             paymentType: '',
             sumForPay: 0,
-            currency: ''
+            currency: '',
+            expireDate: '',
+            invoiceFileHandler: ''
         }
     });
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file); // Convert file to Base64
+            reader.onload = () => {
+                const base64File = reader.result.split(",")[1];
+                setFileBase64(reader.result.split(",")[1]);
+                setValue('invoiceFileHandler', base64File);
+            };
+        }
+    };
+
+    const submitHandlder = async (values) => {
+        try {
+            values.expireDate = calculateExpireDate(values.invoiceDate, values.paymentTerm);
+            values.invoiceDate = formatDate(values.invoiceDate);
+            values.invoiceFileHandler = fileBase64;
+            await incomingInvoicecService.createInvoice(values);
+            navigate('/documents/expenses');
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
     return (
 
         <div className="add-invoice-container">
@@ -24,7 +59,7 @@ export default function AddIncomingInvoice() {
                 <h4>Добавяне на входна фактура (12312312)</h4>
 
                 <h5>Основна информация</h5>
-                <form action="POST" className="add-invoice-form">
+                <form action="POST" className="add-invoice-form" onSubmit={handleSubmit(submitHandlder)}>
 
                     <div className="input-container col-3">
                         <label htmlFor="supplier">Доставчик</label>
@@ -51,8 +86,8 @@ export default function AddIncomingInvoice() {
                     <div className="input-container col-3">
                         <label htmlFor="paymentTerm">Срок на плащане</label>
                         <select className="invoice-add-input" name="paymentTerm" id="paymentTerm" {...register('paymentTerm')} >
-                            <option value="short">15 дни</option>
-                            <option value="long">1 месец</option>
+                            <option value="15">15 дни</option>
+                            <option value="30">1 месец</option>
                         </select>
                     </div>
 
@@ -76,13 +111,16 @@ export default function AddIncomingInvoice() {
                             <option value="euro">евро</option>
                         </select>
                     </div>
+                    <div className="file-container">
+                        <input type="file" accept=".pdf" name='invoiceFile' onChange={handleFileChange} />
+                    </div>
                 </form>
             </div>
 
             <div className='add-invoice-footer'>
                 <button className="button-go-back" >Назад</button>
                 <button className="action-button" >Добавяне и печат</button>
-                <button className="action-button" type="button"  onClick={handleSubmit((values) => console.log(values))}>Добавяне</button>
+                <button className="action-button" type="button" onClick={handleSubmit(submitHandlder)}>Добавяне</button>
             </div>
         </div>
     )
