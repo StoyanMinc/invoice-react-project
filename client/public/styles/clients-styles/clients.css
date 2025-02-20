@@ -1,0 +1,73 @@
+.counterparties-container {
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    float: left;
+    margin: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 0px 15px 15px ;
+}
+
+.counterparties-container-header {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.counterparties-container-header h3 {
+    float: left;
+    line-height: 30px;
+}
+
+.couterparties-options {
+    float: right;
+}
+
+.clients-input-search {
+    width: 200px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid gray;
+    background-image: url(../../assets/magnifying-glass-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 19px;
+    background-position: left;
+    background-position-x: 7px;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.table-clients-container {
+    float: left;
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    margin-top: 5px;
+}
+
+.table-clients {
+    float: left;
+    background-color: white;
+    width: 100%;
+    border: 1px solid #E5E5E5;
+    border-collapse: collapse;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.table-clients thead {
+    background-color: #F9FBFA;
+    color: #505050;
+    font-weight: 600;
+}
+
+.table-clients thead th {
+    padding: 10px 0;
+}
+
+.table-clients td {
+    padding: 15px 20px;
+    border: 1px solid #E5E5E5;
+}
+
+
+

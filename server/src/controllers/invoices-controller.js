@@ -18,4 +18,20 @@ invoicesController.post('/create-invoice', async (req, res) => {
     res.json(createtInvoice);
 });
 
+invoicesController.get('/get-last-invoice', async (req, res) => {
+    const lastInvoice = await invoiceService.getLastInvoice('invoice');
+    res.json(lastInvoice);
+});
+
+invoicesController.get('/get-last-proforma', async (req, res) => {
+    const lastInvoice = await invoiceService.getLastInvoice('proforma');
+    res.json(lastInvoice);
+});
+
+invoicesController.get('/sales/:invoiceId', async (req, res) => {
+    const invoiceId = req.params.invoiceId;
+    const invoice = await invoiceService.getOneInvoice(invoiceId);
+    res.json(invoice);
+});
+
 export default invoicesController;

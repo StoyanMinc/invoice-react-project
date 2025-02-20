@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGetAutomaticInvoices } from '../../../hooks/invoices-hooks/useAutomaticInvoices';
 
 export default function AutomaticInvoice() {
 
     const navigate = useNavigate();
+
+    const invoices = useGetAutomaticInvoices();
 
     return (
         <div className="automatic-charging-container">
@@ -28,26 +31,18 @@ export default function AutomaticInvoice() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {invoices.map((invoice, index)=>
+                            <tr key={invoice._id}>
                                 <td><input type="checkbox"  /></td>
-                                <td>14</td>
-                                <td>23</td>
-                                <td>"Стоянов и Ко" ЕООД</td>
-                                <td>61.20лв</td>
-                                <td>Банков превод</td>
+                                <td>{index + 1}</td>
+                                <td>{invoice.dateOfAutomatization}</td>
+                                <td>{invoice.client}</td>
+                                <td>{invoice.sumForPay}лв</td>
+                                <td>{invoice.paymentType}</td>
                                 <td>0</td>
                                 <td>0 0 0 0</td>
                             </tr>
-                            <tr>
-                                <td><input type="checkbox" /></td>
-                                <td>14</td>
-                                <td>23</td>
-                                <td>"Стоянов и Ко" ЕООД</td>
-                                <td>61.20лв</td>
-                                <td>Банков превод</td>
-                                <td>0</td>
-                                <td>0 0 0 0</td>
-                            </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

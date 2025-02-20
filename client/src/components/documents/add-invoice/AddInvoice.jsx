@@ -1,26 +1,72 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { outInvoicecService } from "../../../api/invoice-api.js";
 import formatDate from "../../../utils/formatDate.js";
 import calculateExpireDate from "../../../utils/calculateExpireDate.js";
+import { useGetAllClients } from "../../../hooks/invoices-hooks/useClients.js";
 
 export default function AddInvoice() {
+
+    const [proformaNumber, setProformaNumber] = useState();
+    const [invoiceNumber, setInvoiceNumber] = useState();
+
+    const clients = useGetAllClients();
+    console.log(clients);
+
+    useEffect(() => {
+        (async () => {
+            const result = await outInvoicecService.getLastProforma();
+            if(result.length > 0) {
+                const lastProformaNumber = result[0].invoiceNumber;
+                setProformaNumber(lastProformaNumber + 1);
+
+            } else {
+                setProformaNumber(3000000001);
+            }
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const result = await outInvoicecService.getLastInvoice();
+            if(result.length > 0) {
+                const lastInvoiceNumber = result[0].invoiceNumber;
+                setInvoiceNumber(lastInvoiceNumber + 1);
+            } else {
+                setInvoiceNumber(2000000001);
+            }
+        })();
+    },[]);
+
     const navigate = useNavigate();
-    const { register, handleSubmit } = useForm({
+    
+    const { register, handleSubmit, setValue, watch } = useForm({
         defaultValues: {
             client: '',
             mol: '',
             documentType: '',
-            invoiceNumber: '',
+            invoiceNumber: 111,
             invoiceDate: '',
             expireDate: '',
             paymentTerm: '',
             paymentType: '',
             bankChoise: ''
         }
-    })
+    });
+
+    const documentType = watch('documentType');
+
+    useEffect(() => {
+        if (documentType === "invoice") {
+            setValue("invoiceNumber", invoiceNumber || "");
+        } else if (documentType === "proforma") {
+            setValue("invoiceNumber", proformaNumber || "");
+        } else {
+            setValue("invoiceNumber", "");
+        }
+    }, [documentType, invoiceNumber, proformaNumber, setValue]);
 
     const [products, setProducts] = useState([{
         name: '',
@@ -62,6 +108,9 @@ export default function AddInvoice() {
             products
         };
         try {
+            if(!requestData.client) {
+                return alert('Please choose client!');
+            }
             requestData.invoiceDate = formatDate(requestData.invoiceDate);
             requestData.expireDate = calculateExpireDate(requestData.invoiceDate, requestData.paymentTerm);
             await outInvoicecService.createInvoice(requestData);
@@ -81,7 +130,11 @@ export default function AddInvoice() {
 
                     <div className="input-container col-3">
                         <label htmlFor="client">Клиент</label>
-                        <input className="invoice-add-input" type="text" name="client" id="client" {...register('client')} />
+                        <select className="invoice-add-input" name="client" id="client" {...register('client')}>
+                           {clients.map(client => 
+                            <option key={client._id} value={client._id}>{client.nameOfClient}</option>
+                           )}
+                        </select>
                     </div>
 
                     <div className="input-container col-3">
@@ -99,7 +152,7 @@ export default function AddInvoice() {
 
                     <div className="input-container col-2">
                         <label htmlFor="invoiceNumber">Фактура номер</label>
-                        <input className="invoice-add-input" type="text" name="invoiceNumber" id="invoiceNumber" {...register('invoiceNumber')} />
+                        <input className="invoice-add-input" type="text" name="invoiceNumber" id="invoiceNumber" {...register('invoiceNumber')} readOnly/>
                     </div>
 
                     <div className="input-container col-2">

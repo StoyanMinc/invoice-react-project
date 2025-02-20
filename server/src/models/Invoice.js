@@ -1,7 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 const invoiceShema = new Schema({
-    client: String,
     mol: String,
     documentType: String,
     invoiceNumber: Number,
@@ -12,6 +11,10 @@ const invoiceShema = new Schema({
     bankChoise: String,
     totalPrice: Number,
     products: [],
+    client: {
+        type: Types.ObjectId,
+        ref: 'Client'
+    }
 }, {timestamps: true});
 
 const Invoice = model('Invoice', invoiceShema);

@@ -45,24 +45,20 @@
     font-weight: 600;
     color: white;
     margin-left: 10px;
-}
-
-.documents-income-take-reference {
-
-    background-image: url(../../assets/chart-simple-solid.svg);
-    background-repeat: no-repeat;
-    background-size: 15px;
-    padding: 8px 8px 8px 25px;
-    background-position-y: 5px;
-    background-position-x: 5px;
-}
-
-.submit-add-invoice-btn {
     background-image: url(../../assets/plus-solid.svg);
     background-repeat: no-repeat;
     background-size: 18px;
     padding: 8px 8px 8px 30px;
     background-position-y: 4px;
+    background-position-x: 5px;
+}
+
+.documents-income-take-reference {
+    background-image: url(../../assets/chart-simple-solid.svg);
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding: 8px 8px 8px 25px;
+    background-position-y: 5px;
     background-position-x: 5px;
 }
 

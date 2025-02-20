@@ -12,6 +12,8 @@ import AddInvoice from './components/documents/add-invoice/AddInvoice';
 import AddIncomingInvoice from './components/documents/add-incoming-invoice/AddIncomingInvoice';
 import AddAutomaticInvoice from './components/documents/add-automatic-invoice/AddAutomaticInvoice';
 import AutomaticInvoice from './components/documents/automatic-invoice/AutomaticInvoice';
+import PrintInvoice from './components/documents/print-invoice/PrintInvoice';
+import AddCounterparties from './components/counterparties/AddCounterparties';
 function App() {
     return (
         <div className="container">
@@ -26,10 +28,12 @@ function App() {
                     <Route path='/documents/automatic-invoice' element={<AutomaticInvoice />} />
                     <Route path='/documents/automatic-invoice/add-automatic-invoice' element={<AddAutomaticInvoice />} />
                     <Route path='/counterparties' element={<Counterparties />} />
+                    <Route path='/counterparties/add-counterparties' element={<AddCounterparties />} />
                     <Route path='/warehouse' element={<Warehouse />} />
                     <Route path='/catalog' element={<Catalog />} />
                     <Route path='/employees' element={<Employees />} />
                     <Route path='/gps-system' element={<GpsSystem />} />
+                    <Route path='/print-invoice/:invoiceId' element={<PrintInvoice />} />
                 </Routes>
             </main>
         </div>

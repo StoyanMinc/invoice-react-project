@@ -1,0 +1,19 @@
+import { Schema, model } from "mongoose";
+
+const clientSchema = new Schema({
+    typeOfClinet: String,
+    nameOfClient: String,
+    mol: String,
+    eikEgn: String,
+    identN: String,
+    address: String,
+    city: String,
+    country: String,
+    email: String,
+    phoneNumber: String,
+    webSite: String
+});
+
+const Client = model('Client', clientSchema);
+
+export default Client;

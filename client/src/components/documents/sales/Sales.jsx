@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useGetOutInvoices } from "../../../hooks/invoices-hooks/useOutInvoices";
 import { useState } from "react";
 
@@ -70,7 +70,7 @@ export default function Sales() {
                         <tbody>
                             {filteredInvoices.map((invoice, i) =>
                                 <tr key={invoice._id}>
-                                    <td>{i + 1}</td>
+                                    <td>{invoice.invoiceNumber}</td>
                                     <td>{invoice.invoiceDate}</td>
                                     {invoice.documentType === 'proforma'
                                         ? <td>Проформа</td>
@@ -81,7 +81,14 @@ export default function Sales() {
                                     <td>{payment[invoice.paymentType]}</td>
 
                                     <td ><span className="table-paid-info unpaid">чака плащане</span></td>
-                                    <td> 0 0 0 0</td>
+                                    <td className="action-td">
+                                        <Link to={'/'} className="action-icon edit-icon"></Link>
+                                        <Link to={`/print-invoice/${invoice._id}`} className="action-icon print-icon"></Link>
+                                        <Link to={'/'} className="action-icon dollars-bag-icon"></Link>
+                                        <Link to={'/'} className="action-icon files-icon"></Link>
+                                        <Link to={'/'} className="action-icon message-icon"></Link>
+                                        <Link to={'/'} className="action-icon bin-icon"></Link>
+                                    </td>
                                 </tr>
                             )}
                         </tbody>

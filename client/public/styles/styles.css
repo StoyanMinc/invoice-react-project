@@ -8,3 +8,6 @@
 @import 'documents-styles/automaticInvoice.css';
 @import 'home.css';
 @import 'sub-header.css';
+@import 'print-invoice.css';
+@import 'clients-styles/clients.css';
+@import 'clients-styles/add-clients.css';

@@ -2,6 +2,8 @@ import { get, post } from "./requester.js";
 
 const BASE_URL = 'http://localhost:5001/automatic-invoices';
 
+const getAllInvoices = () => get(BASE_URL + '/automatic-invoices');
+
 const createInvoice = (values) => {
     
     post(`${BASE_URL}/create-invoice`, values);
@@ -13,6 +15,6 @@ const createInvoice = (values) => {
 
 export const automaticInvoiceService = {
     createInvoice,
-    // getAllInvoices,
+    getAllInvoices,
     // getLastInvoices,
 };
