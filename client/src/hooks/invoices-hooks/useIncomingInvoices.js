@@ -15,3 +15,16 @@ export function useGetIncomingInvoices() {
 
     return invoices;
 };
+
+export function useGetLastIncomeInvoices() {
+    const [lastInvoices, setLastInvoices] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            const result = await incomingInvoicecService.getLastInvoices();
+            setLastInvoices(result);
+        })();
+    },[])
+
+    return lastInvoices;
+}

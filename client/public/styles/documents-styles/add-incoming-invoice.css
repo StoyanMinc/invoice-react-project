@@ -1,3 +1,32 @@
-h1 {
-    color: rebeccapurple;
+.add-invoice-form-contaier h5 {
+    margin-top: 10px;
+}
+
+.file-title {
+    float: left;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    display: flex;
+    width: 90px;
+    height: 90px;
+    cursor: pointer;
+    background: url('../../assets/open-folder.png');
+    background-size: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: hwb(0 91% 9%);
+    border-radius: 5px;
+}
+
+.file-container p {
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 10px;
 }

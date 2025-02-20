@@ -14,6 +14,8 @@
     background-color: white;
     font-size: 12px;
     margin-right: 20px;
+    cursor: pointer;
+
 }
 
 
@@ -50,6 +52,7 @@
     border: 1px solid #E5E5E5;
     padding: 0px 20px 20px;
 }
+
 .documents-output-invoices-holder-title {
     float: left;
     width: 100%;
@@ -65,12 +68,14 @@
 .documents-output-invoices-holder-title .documents-output-invoices-options {
     float: right;
 }
+
 .tables-sales-container {
     float: left;
     width: 100%;
     margin-top: 10px;
     border: 1px solid #E5E5E5;
 }
+
 .documents-output-invoices-options input {
     width: 200px;
     height: 30px;
@@ -144,7 +149,7 @@
     border: 1px solid #E5E5E5;
 }
 
- .total-invoices {
+.total-invoices {
     float: left;
     background-color: #F9FBFA;
     width: 100%;

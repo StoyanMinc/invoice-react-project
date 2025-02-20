@@ -9,7 +9,10 @@ const createInvoice = (values) => {
 
 const getAllInvoices = () => get(BASE_URL + '/expenses');
 
+const getLastInvoices = () => get(BASE_URL);
+
 export const incomingInvoicecService = {
     createInvoice,
     getAllInvoices,
+    getLastInvoices,
 };

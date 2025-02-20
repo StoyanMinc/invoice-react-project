@@ -1,6 +1,7 @@
-.documents-income-invoices-holder {
+.automatic-charging-container {
     float: left;
     width: calc(100% - 50px);
+    height: calc(100% - 40px);
     padding: 0px 20px 20px 20px;
     background-color: white;
     border: 1px solid #E5E5E5;
@@ -8,22 +9,22 @@
     font-size: 12px;
 }
 
-.documents-income-invoices-holder-title {
+.automatic-charging-title {
     float: left;
     width: 100%;
     margin-top: 10px;
 }
 
-.documents-income-invoices-holder-title h3 {
+.automatic-charging-title h3 {
     float: left;
     line-height: 30px;
 }
 
-.documents-income-invoices-holder-title .documents-income-invoices-options {
+.automatic-charging-title .automatic-charging-options {
     float: right;
 }
 
-.documents-income-invoices-options input {
+.automatic-charging-search {
     width: 200px;
     height: 30px;
     border-radius: 6px;
@@ -37,42 +38,13 @@
     padding-left: 30px;
 }
 
-.submit-add-invoice-btn {
-    background-color: #05A8F5;
-    border: none;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    color: white;
-    margin-left: 10px;
-}
-
-.documents-income-take-reference {
-
-    background-image: url(../../assets/chart-simple-solid.svg);
-    background-repeat: no-repeat;
-    background-size: 15px;
-    padding: 8px 8px 8px 25px;
-    background-position-y: 5px;
-    background-position-x: 5px;
-}
-
-.submit-add-invoice-btn {
-    background-image: url(../../assets/plus-solid.svg);
-    background-repeat: no-repeat;
-    background-size: 18px;
-    padding: 8px 8px 8px 30px;
-    background-position-y: 4px;
-    background-position-x: 5px;
-}
-
-.income-tables-container {
+.automatic-charging-table-container {
     float: left;
     width: 100%;
-    border: 1px solid #E5E5E5;
+    /* border: 1px solid #E5E5E5; */
 }
 
-.documents-expenses-table {
+.automatic-charging-table {
     float: left;
     margin-top: 10px;
     background-color: white;
@@ -83,26 +55,26 @@
     border-collapse: collapse;
 }
 
-.documents-expenses-table thead {
+.automatic-charging-table thead{
     background-color: #F9FBFA;
     color: #505050;
     font-weight: 600;
 }
 
-.documents-expenses-table th {
+.automatic-charging-table th {
     padding: 10px 0;
 }
 
-.documents-expenses-table td {
+.automatic-charging-table td {
     padding: 15px 20px;
     border: 1px solid #E5E5E5;
 }
 
-.documents-sales-container .total-invoices {
+/* .documents-sales-container .total-invoices {
     float: left;
     background-color: #F9FBFA;
     width: 100%;
     padding: 10px;
     font-size: 12px;
     font-weight: 600;
-}
+} */

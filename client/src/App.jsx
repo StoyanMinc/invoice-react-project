@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Header from './components/header/Header';
 import Home from './components/home/Home';
 import Documents from './components/documents/sales/Sales';
@@ -10,6 +10,8 @@ import Employees from './components/employees/Employees';
 import GpsSystem from './components/gpsSystem/GpsSystem';
 import AddInvoice from './components/documents/add-invoice/AddInvoice';
 import AddIncomingInvoice from './components/documents/add-incoming-invoice/AddIncomingInvoice';
+import AddAutomaticInvoice from './components/documents/add-automatic-invoice/AddAutomaticInvoice';
+import AutomaticInvoice from './components/documents/automatic-invoice/AutomaticInvoice';
 function App() {
     return (
         <div className="container">
@@ -21,6 +23,8 @@ function App() {
                     <Route path='/documents/sales/add-invoice' element={<AddInvoice />} />
                     <Route path='/documents/expenses' element={<Expenses />} />
                     <Route path='/documents/expenses/add-incoming-invoice' element={<AddIncomingInvoice />} />
+                    <Route path='/documents/automatic-invoice' element={<AutomaticInvoice />} />
+                    <Route path='/documents/automatic-invoice/add-automatic-invoice' element={<AddAutomaticInvoice />} />
                     <Route path='/counterparties' element={<Counterparties />} />
                     <Route path='/warehouse' element={<Warehouse />} />
                     <Route path='/catalog' element={<Catalog />} />

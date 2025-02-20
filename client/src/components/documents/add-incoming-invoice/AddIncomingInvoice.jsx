@@ -104,22 +104,25 @@ export default function AddIncomingInvoice() {
                         <input className="invoice-add-input" type="number" name="sumForPay" id="sumForPay" {...register('sumForPay')} />
                     </div>
 
-                    <div className="input-container col-3">
+                    <div className="input-container col-3 currency-container">
                         <label htmlFor="currency">Валута</label>
                         <select className="invoice-add-input" name="currency" id="currency" {...register('currency')} >
                             <option value="lv">лв.</option>
                             <option value="euro">евро</option>
                         </select>
                     </div>
-                    <div className="file-container">
-                        <input type="file" accept=".pdf" name='invoiceFile' onChange={handleFileChange} />
+                    <h5 className='file-title'>Документация</h5>
+                    <div className="input-container file-container">
+                        <input className="invoice-add-input file-input" type="file" accept=".pdf" name='invoiceFile' id='invoiceFile' onChange={handleFileChange} />
+                        <label htmlFor="invoiceFile" className='file-label'></label>
+                        <p className='file-p'>Избери фаил</p>
                     </div>
                 </form>
             </div>
 
             <div className='add-invoice-footer'>
                 <button className="button-go-back" >Назад</button>
-                <button className="action-button" >Добавяне и печат</button>
+                {/* <button className="action-button" >Добавяне и печат</button> */}
                 <button className="action-button" type="button" onClick={handleSubmit(submitHandlder)}>Добавяне</button>
             </div>
         </div>

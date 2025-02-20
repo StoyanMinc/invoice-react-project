@@ -4,19 +4,20 @@ import DocumentsHeader from "../sub-headers/DocumentHeader";
 export default function Header() {
     const location = useLocation();
     const currentPath = location.pathname;
+    const currenPage = currentPath.split('/')[1];
     return (
         <>
             <header>
                 <div className="nav-container">
                     <nav>
                         <ul>
-                            <li><Link className="active" to="/">начало</Link></li>
-                            <li><Link to="/documents/sales">документи</Link></li>
-                            <li><Link to="/counterparties">контрагенти</Link></li>
-                            <li><Link to="/warehouse">склад</Link></li>
-                            <li><Link to="/catalog">магазин</Link></li>
-                            <li><Link to="/employees">служители</Link></li>
-                            <li><Link to="/gps-system">gps система</Link></li>
+                            <li><Link className={currenPage === '' ? 'active' : ''} to="/">начало</Link></li>
+                            <li><Link className={currenPage === 'documents' ? 'active' : ''} to="/documents/sales">документи</Link></li>
+                            <li><Link className={currenPage === 'counterparties' ? 'active' : ''} to="/counterparties">контрагенти</Link></li>
+                            <li><Link className={currenPage === 'warehouse' ? 'active' : ''} to="/warehouse">склад</Link></li>
+                            <li><Link className={currenPage === 'catalog' ? 'active' : ''} to="/catalog">магазин</Link></li>
+                            <li><Link className={currenPage === 'employees' ? 'active' : ''} to="/employees">служители</Link></li>
+                            <li><Link className={currenPage === 'gps-system' ? 'active' : ''} to="/gps-system">gps система</Link></li>
                         </ul>
                     </nav>
                 </div>
