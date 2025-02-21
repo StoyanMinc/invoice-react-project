@@ -62,7 +62,7 @@ export default function Home() {
                             {lastOutInvoices.map(i =>
                                 <tr key={i._id}>
                                     <td>{i.invoiceDate}</td>
-                                    <td>{i.client}</td>
+                                    <td>{i.client.nameOfClient}</td>
                                     <td>{i.totalPrice.toFixed(2)}лв</td>
                                     <td className="td-paid" ><span className=" table-paid-info unpaid">чака плащане</span></td>
                                 </tr>

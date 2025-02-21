@@ -5,43 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { outInvoicecService } from "../../../api/invoice-api.js";
 import formatDate from "../../../utils/formatDate.js";
 import calculateExpireDate from "../../../utils/calculateExpireDate.js";
-import { useGetAllClients } from "../../../hooks/invoices-hooks/useClients.js";
+import { useGetAllClients } from "../../../hooks/client-hook/useClients.js";
+
+import { useGetLastInvoiceNumber, useGetLastProformaNumber } from "../../../hooks/invoices-hooks/useOutInvoices.js";
 
 export default function AddInvoice() {
 
-    const [proformaNumber, setProformaNumber] = useState();
-    const [invoiceNumber, setInvoiceNumber] = useState();
-
+    const proformaNumber = useGetLastProformaNumber();
+    const invoiceNumber = useGetLastInvoiceNumber();
     const clients = useGetAllClients();
     console.log(clients);
 
-    useEffect(() => {
-        (async () => {
-            const result = await outInvoicecService.getLastProforma();
-            if(result.length > 0) {
-                const lastProformaNumber = result[0].invoiceNumber;
-                setProformaNumber(lastProformaNumber + 1);
-
-            } else {
-                setProformaNumber(3000000001);
-            }
-        })();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            const result = await outInvoicecService.getLastInvoice();
-            if(result.length > 0) {
-                const lastInvoiceNumber = result[0].invoiceNumber;
-                setInvoiceNumber(lastInvoiceNumber + 1);
-            } else {
-                setInvoiceNumber(2000000001);
-            }
-        })();
-    },[]);
-
     const navigate = useNavigate();
-    
+
     const { register, handleSubmit, setValue, watch } = useForm({
         defaultValues: {
             client: '',
@@ -57,16 +33,29 @@ export default function AddInvoice() {
     });
 
     const documentType = watch('documentType');
+    const client = watch('client');
 
     useEffect(() => {
-        if (documentType === "invoice") {
+        if (documentType === "фактура") {
             setValue("invoiceNumber", invoiceNumber || "");
-        } else if (documentType === "proforma") {
+        } else if (documentType === "проформа") {
             setValue("invoiceNumber", proformaNumber || "");
         } else {
             setValue("invoiceNumber", "");
         }
     }, [documentType, invoiceNumber, proformaNumber, setValue]);
+
+
+    useEffect(() => {
+        if (client) {
+            const selectedClient = clients.find(c => c._id === client);
+            if (selectedClient) {
+                setValue('mol', selectedClient.mol || '');
+            }
+        }
+    }, [client, clients, setValue]);
+
+
 
     const [products, setProducts] = useState([{
         name: '',
@@ -108,11 +97,12 @@ export default function AddInvoice() {
             products
         };
         try {
-            if(!requestData.client) {
+            if (!requestData.client) {
                 return alert('Please choose client!');
             }
             requestData.invoiceDate = formatDate(requestData.invoiceDate);
             requestData.expireDate = calculateExpireDate(requestData.invoiceDate, requestData.paymentTerm);
+            requestData.paymentStatus = 1;
             await outInvoicecService.createInvoice(requestData);
             navigate('/documents/sales');
         } catch (error) {
@@ -131,9 +121,10 @@ export default function AddInvoice() {
                     <div className="input-container col-3">
                         <label htmlFor="client">Клиент</label>
                         <select className="invoice-add-input" name="client" id="client" {...register('client')}>
-                           {clients.map(client => 
-                            <option key={client._id} value={client._id}>{client.nameOfClient}</option>
-                           )}
+                            <option value="">Изберете клиент</option>
+                            {clients.map(client =>
+                                <option key={client._id} value={client._id}>{client.nameOfClient}</option>
+                            )}
                         </select>
                     </div>
 
@@ -145,14 +136,14 @@ export default function AddInvoice() {
                     <div className="input-container col-2">
                         <label htmlFor="documentType">Тип на документ</label>
                         <select className="invoice-add-input" name="documentType" id="documentType" {...register('documentType')}>
-                            <option value="invoice">Фактура</option>
-                            <option value="proforma">Проформа</option>
+                            <option value="фактура">Фактура</option>
+                            <option value="проформа">Проформа</option>
                         </select>
                     </div>
 
                     <div className="input-container col-2">
                         <label htmlFor="invoiceNumber">Фактура номер</label>
-                        <input className="invoice-add-input" type="text" name="invoiceNumber" id="invoiceNumber" {...register('invoiceNumber')} readOnly/>
+                        <input className="invoice-add-input" type="text" name="invoiceNumber" id="invoiceNumber" {...register('invoiceNumber')} readOnly />
                     </div>
 
                     <div className="input-container col-2">
@@ -171,16 +162,16 @@ export default function AddInvoice() {
                     <div className="input-container col-3">
                         <label htmlFor="paymentType">Начин на плащане</label>
                         <select className="invoice-add-input" name="paymentType" id="paymentType" {...register('paymentType')}>
-                            <option value="bankTransfer">Банков превод</option>
-                            <option value="inCash">В брой</option>
+                            <option value="Банков превод">Банков превод</option>
+                            <option value="В брой">В брой</option>
                         </select>
                     </div>
 
                     <div className="input-container col-3">
                         <label htmlFor="bankChoise">Избор на банка</label>
                         <select className="invoice-add-input" name="bankChoise" id="bankChoise" {...register('bankChoise')}>
-                            <option value="dsk">DSK</option>
-                            <option value="obb">OBB</option>
+                            <option value="ДСК">ДСК</option>
+                            <option value="ОББ">ОББ</option>
                         </select>
                     </div>
                 </form>

@@ -19,12 +19,12 @@ invoicesController.post('/create-invoice', async (req, res) => {
 });
 
 invoicesController.get('/get-last-invoice', async (req, res) => {
-    const lastInvoice = await invoiceService.getLastInvoice('invoice');
+    const lastInvoice = await invoiceService.getLastInvoice('фактура');
     res.json(lastInvoice);
 });
 
 invoicesController.get('/get-last-proforma', async (req, res) => {
-    const lastInvoice = await invoiceService.getLastInvoice('proforma');
+    const lastInvoice = await invoiceService.getLastInvoice('проформа');
     res.json(lastInvoice);
 });
 

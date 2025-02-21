@@ -29,20 +29,35 @@ export function useGetLatestOutInvoices() {
     return lastInvoices;
 };
 
-export async function useGetLastInvoiceNumber() {
-    const lastInvoice = await outInvoicecService.getLastInvoice();
-    const InvoiceNumber = lastInvoice.InvoiceNumber;
+export function useGetLastInvoiceNumber() {
+    const [invoiceNumber, setInvoiceNumber] = useState();
 
+    useEffect(() => {
+        (async () => {
+            const result = await outInvoicecService.getLastInvoice();
+            if(result.length > 0) {
+                const lastInvoiceNumber = result[0].invoiceNumber;
+                setInvoiceNumber(lastInvoiceNumber + 1);
+            } else {
+                setInvoiceNumber(2000000001);
+            }
+        })();
+    }, []);
+    return invoiceNumber;
 };
 
-export async function useGetLastProformaNumber() {
+export function useGetLastProformaNumber() {
     const [proformaNumber, setProformaNumber] = useState();
 
     useEffect(() => {
         (async () => {
             const result = await outInvoicecService.getLastProforma();
-            const lastProformaNumber = result[0].invoiceNumber;
-            setProformaNumber(lastProformaNumber);
+            if(result.length > 0) {
+                const lastProformaNumber = result[0].invoiceNumber;
+                setProformaNumber(lastProformaNumber + 1);
+            } else {
+                setProformaNumber(3000000001);
+            }
         })();
     }, []);
     return proformaNumber;

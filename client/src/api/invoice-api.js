@@ -1,4 +1,4 @@
-import { get, post } from "./requester.js";
+import { del, get, post } from "./requester.js";
 
 const BASE_URL = 'http://localhost:5001/invoices';
 
@@ -23,5 +23,5 @@ export const outInvoicecService = {
     getLatestInvoices,
     getLastInvoice,
     getLastProforma,
-    getOneInvoice
+    getOneInvoice,
 };

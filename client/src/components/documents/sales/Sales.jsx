@@ -1,11 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useGetOutInvoices } from "../../../hooks/invoices-hooks/useOutInvoices";
 import { useState } from "react";
-
-const payment = {
-    inCash: 'В брой',
-    bankTransfer: 'Банков трансфер'
-}
+import { outInvoicecService } from "../../../api/invoice-api";
 
 export default function Sales() {
     const invoices = useGetOutInvoices();
@@ -14,12 +10,12 @@ export default function Sales() {
     const [selectedType, setSelectedType] = useState('all');
 
     const filteredInvoices = invoices.filter((invoices) => {
-        if(selectedType === 'all') {
+        if (selectedType === 'all') {
             return true;
         }
         return selectedType === 'onlyInvoices'
-        ? invoices.documentType !== 'proforma'
-        : invoices.documentType === 'proforma';
+            ? invoices.documentType !== 'проформа'
+            : invoices.documentType === 'проформа';
     });
 
     const totalInvoicesPrice = filteredInvoices.map(i => i.totalPrice).reduce((a, c) => a + c, 0);
@@ -36,10 +32,10 @@ export default function Sales() {
                             <td className={selectedType === 'all' ? "active-sales-type" : ''} onClick={() => setSelectedType('all')} >Всички</td>
                         </tr>
                         <tr>
-                            <td className={selectedType === 'onlyInvoices' ? "active-sales-type" : ''}  onClick={() => setSelectedType('onlyInvoices')} >Фактури</td>
+                            <td className={selectedType === 'onlyInvoices' ? "active-sales-type" : ''} onClick={() => setSelectedType('onlyInvoices')} >Фактури</td>
                         </tr>
                         <tr>
-                            <td className={selectedType === 'proforma' ? "active-sales-type" : ''}  onClick={() => setSelectedType('proforma')} >Проформа фактури</td>
+                            <td className={selectedType === 'proforma' ? "active-sales-type" : ''} onClick={() => setSelectedType('proforma')} >Проформа фактури</td>
                         </tr>
                     </thead>
                 </table>
@@ -72,22 +68,21 @@ export default function Sales() {
                                 <tr key={invoice._id}>
                                     <td>{invoice.invoiceNumber}</td>
                                     <td>{invoice.invoiceDate}</td>
-                                    {invoice.documentType === 'proforma'
-                                        ? <td>Проформа</td>
-                                        : <td>Фактура</td>
-                                    }
-                                    <td>{invoice.client}</td>
+                                    <td>{invoice.documentType}</td>
+                                    <td>{invoice.client.nameOfClient}</td>
                                     <td><span>{invoice.totalPrice.toFixed(2)}</span>лв</td>
-                                    <td>{payment[invoice.paymentType]}</td>
-
-                                    <td ><span className="table-paid-info unpaid">чака плащане</span></td>
+                                    <td>{invoice.paymentType}</td>
+                                    {invoice.paymentStatus === 0
+                                        ? <td ><span className="table-paid-info unpaid">чака плащане</span></td>
+                                        : <td ><span className="table-paid-info paid">платена</span></td>
+                                    }
                                     <td className="action-td">
                                         <Link to={'/'} className="action-icon edit-icon"></Link>
                                         <Link to={`/print-invoice/${invoice._id}`} className="action-icon print-icon"></Link>
                                         <Link to={'/'} className="action-icon dollars-bag-icon"></Link>
                                         <Link to={'/'} className="action-icon files-icon"></Link>
                                         <Link to={'/'} className="action-icon message-icon"></Link>
-                                        <Link to={'/'} className="action-icon bin-icon"></Link>
+                                        <Link className="action-icon bin-icon"></Link>
                                     </td>
                                 </tr>
                             )}

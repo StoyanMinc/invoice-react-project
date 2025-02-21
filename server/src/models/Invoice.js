@@ -10,6 +10,7 @@ const invoiceShema = new Schema({
     paymentType: String,
     bankChoise: String,
     totalPrice: Number,
+    paymentStatus: Number,
     products: [],
     client: {
         type: Types.ObjectId,

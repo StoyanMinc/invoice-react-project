@@ -39,7 +39,10 @@ export default function Expenses() {
                                 <td>{invoice.supplier}</td>
                                 <td>{invoice.sumForPay.toFixed(2)}лв.</td>
                                 <td>123</td>
-                                <td ><span className="table-paid-info unpaid">чака плащане</span></td>
+                                {invoice.paymentStatus === 0
+                                ?<td ><span className="table-paid-info unpaid">чака плащане</span></td>
+                                : <td ><span className="table-paid-info paid">платена</span></td>
+                                }
                                 <td> 0 0 0 0</td>
                             </tr>)}
                     </tbody>

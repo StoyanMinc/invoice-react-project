@@ -39,8 +39,8 @@ export default function AddCounterparties() {
                 <div className="input-holder col-3">
                     <label htmlFor="typeOfClient">Тип клиент</label>
                     <select name="typeOfClinet" id="typeOfClient" {...register('typeOfClinet')}>
-                        <option value="firm">Фирма</option>
-                        <option value="privatePerson">Частно лице</option>
+                        <option value="фирма">Фирма</option>
+                        <option value="частно лице">Частно лице</option>
                     </select>
                 </div>
 

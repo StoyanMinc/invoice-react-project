@@ -44,6 +44,7 @@ export default function AddIncomingInvoice() {
             values.expireDate = calculateExpireDate(values.invoiceDate, values.paymentTerm);
             values.invoiceDate = formatDate(values.invoiceDate);
             values.invoiceFileHandler = fileBase64;
+            values.paymentStatus = 0;
             await incomingInvoicecService.createInvoice(values);
             navigate('/documents/expenses');
         } catch (error) {

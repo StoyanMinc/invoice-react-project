@@ -11,3 +11,12 @@
 @import 'print-invoice.css';
 @import 'clients-styles/clients.css';
 @import 'clients-styles/add-clients.css';
+
+@media print {
+    /* All your print styles go here */
+    header,
+    #footer,
+    #nav {
+        display: none !important;
+    }
+}

@@ -11,6 +11,7 @@ const IncomingInvoiceSchema = new Schema({
     sumForPay: Number,
     currency: String,
     invoiceFile: String,
+    paymentStatus: Number,
 }, {timestamps: true});
 
 const IncomingInvoice = model('IncomingInvoice', IncomingInvoiceSchema);

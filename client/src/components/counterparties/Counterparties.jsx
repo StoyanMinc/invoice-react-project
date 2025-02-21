@@ -1,6 +1,9 @@
 import {useNavigate} from 'react-router-dom';
+import { useGetAllClients } from '../../hooks/client-hook/useClients';
 
 export default function Counterparties() {
+
+    const clients = useGetAllClients();
 
     const navigate = useNavigate();
     return (
@@ -9,7 +12,7 @@ export default function Counterparties() {
                 <h3>Clients (2)</h3>
                 <div className="couterparties-options">
                     <input type="text" className="clients-input-search" placeholder="Търсене" />
-                    <button className="submit-add-invoice-btn" onClick={() => navigate('/counterparties/add-counterparties')} >Добавяне на фактура</button>
+                    <button className="submit-add-invoice-btn" onClick={() => navigate('/counterparties/add-counterparties')} >Добавяне на клиент</button>
                 </div>
             </div>
             <div className="table-clients-container">
@@ -24,13 +27,15 @@ export default function Counterparties() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>"Кристал Лес - 92" ЕООД</td>
-                            <td>Исмес Трампов</td>
-                            <td>Фирма</td>
-                            <td>222222222</td>
+                        {clients.map(client =>
+                        <tr key={client._id}>
+                            <td>{client.nameOfClient}</td>
+                            <td>{client.mol}</td>
+                            <td>{client.typeOfClinet}</td>
+                            <td>{client.eikEgn}</td>
                             <td>0 0</td>
                         </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

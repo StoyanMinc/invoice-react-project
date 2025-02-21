@@ -12,12 +12,6 @@ html, body {
     font-family: 'Montserrat';
 }
 
-/* .container {
-    display: flex;
-    flex-direction: column;
-    background-color: #F7FBFE;
-} */
-
 #root {
     float:left;
     width:100%;

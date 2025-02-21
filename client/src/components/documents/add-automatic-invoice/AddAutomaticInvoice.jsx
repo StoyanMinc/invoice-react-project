@@ -1,14 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import generateOptions from "../../../utils/generateOptions";
 import { automaticInvoiceService } from "../../../api/automatic-invoice.api";
+import { useGetAllClients } from "../../../hooks/client-hook/useClients";
 
 export default function AddAutomaticInvoice() {
+
+    const [isbankPaymentType, setIsBankPaymentType] = useState(false);
+
     const navigate = useNavigate();
     const options = generateOptions();
 
-    const { register, handleSubmit } = useForm({
+    const clients = useGetAllClients();
+
+    const { register, handleSubmit, setValue, watch } = useForm({
         defaultValues: {
             client: '',
             mol: '',
@@ -44,6 +51,26 @@ export default function AddAutomaticInvoice() {
 
         setProducts(newProducts);
     };
+    const client = watch('client');
+
+    useEffect(() => {
+        if (client) {
+            const selectedClient = clients.find(c => c._id === client);
+            if (selectedClient) {
+                setValue('mol', selectedClient.mol || '');
+            }
+        }
+    }, [client, clients, setValue]);
+
+    const paymentType = watch('paymentType');
+
+    useEffect(() => {
+        if (paymentType === 'Банков превод') {
+            setIsBankPaymentType(true);
+        } else if(paymentType === 'В брой'){
+            setIsBankPaymentType[false];
+        }
+    }, [paymentType])
 
     const subTotal = products.reduce((total, product) => {
         return total + product.qty * product.unitPrice
@@ -61,7 +88,7 @@ export default function AddAutomaticInvoice() {
 
         try {
             await automaticInvoiceService.createInvoice(requestData);
-            navigate('/');
+            navigate('/documents/automatic-invoice');
         } catch (error) {
             console.log(error.message);
         }
@@ -75,9 +102,14 @@ export default function AddAutomaticInvoice() {
                 <h4>Добавяне на автоматична фактура (12312312)</h4>
                 <form action="POST" className="add-invoice-form" onSubmit={handleSubmit(submitHandlder)}>
 
-                    <div className="input-container col-2">
+                    <div className="input-container col-3">
                         <label htmlFor="client">Клиент</label>
-                        <input className="invoice-add-input" type="text" name="client" id="client" {...register('client')} />
+                        <select className="invoice-add-input" name="client" id="client" {...register('client')}>
+                            <option value="">Изберете клиент</option>
+                            {clients.map(client =>
+                                <option key={client._id} value={client._id}>{client.nameOfClient}</option>
+                            )}
+                        </select>
                     </div>
 
                     <div className="input-container col-2">
@@ -103,18 +135,23 @@ export default function AddAutomaticInvoice() {
                     <div className="input-container col-2">
                         <label htmlFor="paymentType">Начин на плащане</label>
                         <select className="invoice-add-input" name="paymentType" id="paymentType" {...register('paymentType')}>
-                            <option value="bankTransfer">Банков превод</option>
-                            <option value="inCash">В брой</option>
+                            <option value="Банков превод">Банков превод</option>
+                            <option value="В брой">В брой</option>
                         </select>
                     </div>
 
-                    <div className="input-container col-2">
-                        <label htmlFor="bankChoise">Избор на банка</label>
-                        <select className="invoice-add-input" name="bankChoise" id="bankChoise" {...register('bankChoise')}>
-                            <option value="dsk">DSK</option>
-                            <option value="obb">OBB</option>
-                        </select>
-                    </div>
+                    {isbankPaymentType
+                        ?
+                        <div className="input-container col-2">
+                            <label htmlFor="bankChoise">Избор на банка</label>
+                            <select className="invoice-add-input" name="bankChoise" id="bankChoise" {...register('bankChoise')}>
+                                <option value="ДСК">ДСК</option>
+                                <option value="ОББ">OBB</option>
+                            </select>
+                        </div>
+                        : null
+                    }
+
                 </form>
             </div>
 

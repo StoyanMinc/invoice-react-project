@@ -5,7 +5,17 @@ export default function PrintInvoice() {
     const { invoiceId } = useParams();
     const invoice = useGetOneInvoice(invoiceId);
 
-    console.log(invoice);
+    if (!invoice || !invoice.client) {
+        return <div>Loading...</div>
+    }
+
+    const totalPrice = invoice.products.map(product => Number(product.unitPrice) * Number(product.qty)).reduce((a, c) => a + c, 0);
+    const dds = totalPrice * 0.2;
+
+    setTimeout(()=>{
+        window.print();
+        window.history.go(-1);
+    }, 500);
 
     return (
         <div className="print">
@@ -23,7 +33,7 @@ export default function PrintInvoice() {
                     <div className="supplier-info">
                         <h4>Доставчик/изпълнител</h4>
                         <div className="print-info">
-                            <span className="print-span-left">Име</span>
+                            <span className="print-span-left">Пешо</span>
                             <span className="print-span-right">"Аксион Солюшънс" ЕООД</span>
                         </div>
                         <div className="print-info">
@@ -56,31 +66,31 @@ export default function PrintInvoice() {
                         <h4>Получател/възложител</h4>
                         <div className="print-info">
                             <span className="print-span-left">Име</span>
-                            <span className="print-span-right">"Аки Транс" ЕООД</span>
+                            <span className="print-span-right">{invoice.client.nameOfClient}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Държава</span>
-                            <span className="print-span-right">Република България</span>
+                            <span className="print-span-right">{invoice.client.country}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Гр./с.</span>
-                            <span className="print-span-right">Сърница</span>
+                            <span className="print-span-right">{invoice.client.city}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Адрес:</span>
-                            <span className="print-span-right">м. Крушата</span>
+                            <span className="print-span-right">{invoice.client.address}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Идент.N ДДС</span>
-                            <span className="print-span-right">BG1111111</span>
+                            <span className="print-span-right">{invoice.client.identN}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">ЕИК/ЕГН</span>
-                            <span className="print-span-right">111111111</span>
+                            <span className="print-span-right">{invoice.client.eikEgn}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">МОЛ</span>
-                            <span className="print-span-right">Аки Трампов</span>
+                            <span className="print-span-right">{invoice.client.mol}</span>
                         </div>
                     </div>
                 </div>
@@ -91,15 +101,15 @@ export default function PrintInvoice() {
                         <h4>Информация за фактурата</h4>
                         <div className="print-info">
                             <span className="print-span-left">Фактура N</span>
-                            <span className="print-span-right">3000000001</span>
+                            <span className="print-span-right">{invoice.invoiceNumber}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Дата на фактурата</span>
-                            <span className="print-span-right">01.01.2000</span>
+                            <span className="print-span-right">{invoice.invoiceDate}</span>
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Срок на плащане</span>
-                            <span className="print-span-right">16.01.2000</span>
+                            <span className="print-span-right">{invoice.expireDate}</span>
                         </div>
                     </div>
 
@@ -111,12 +121,16 @@ export default function PrintInvoice() {
                         </div>
                         <div className="print-info">
                             <span className="print-span-left">Начин на плащане</span>
-                            <span className="print-span-right">ПО БАНКОВ ПЪТ</span>
+                            <span className="print-span-right">{invoice.paymentType}</span>
                         </div>
-                        <div className="print-info">
-                            <span className="print-span-left">Банка</span>
-                            <span className="print-span-right">ДСК</span>
-                        </div>
+                        {invoice.paymentType === 'Банков превод'
+                            ?
+                            <div className="print-info">
+                                <span className="print-span-left">Банка</span>
+                                <span className="print-span-right">{invoice.bankChoise}</span>
+                            </div>
+                            : null
+                        }
                         <div className="print-info">
                             <span className="print-span-left">BIC</span>
                             <span className="print-span-right">STSAUb12</span>
@@ -143,34 +157,41 @@ export default function PrintInvoice() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Такса за редоставяне на ГПС услуга по Договор 111111</td>
-                            <td>бр.</td>
-                            <td>12</td>
-                            <td>12.00</td>
-                            <td>30.00</td>
-                            <td>100.80</td>
-                        </tr>
+                        {invoice.products.map((product, i) => {
+
+                            const productTotal = Number(product.unitPrice) * Number(product.qty);
+                            return (
+
+                                <tr key={i + 1}>
+                                    <td>{i + 1}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.measure}</td>
+                                    <td>{product.qty}</td>
+                                    <td>{product.unitPrice}</td>
+                                    <td>{product.to}</td>
+                                    <td>{productTotal.toFixed(2)}</td>
+                                </tr>
+                            )
+                        })}
                         <tr>
                             <td colSpan={4} className="empty-print-td">Словом: Сто и двадесет лв деведест и шест стотинки</td>
                             <td colSpan={2}>Сума</td>
-                            <td>ддс</td>
+                            <td>{totalPrice.toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td colSpan={4} className="empty-print-td"></td>
                             <td colSpan={2}>Данъчна основа</td>
-                            <td>100.80</td>
+                            <td>{totalPrice.toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td colSpan={4} className="empty-print-td" ></td>
                             <td colSpan={2}>ДСС 20.00%</td>
-                            <td>20.16</td>
+                            <td>{dds.toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td colSpan={4} className="empty-print-td"></td>
                             <td colSpan={2}>Общо с ДДС</td>
-                            <td>120.96</td>
+                            <td>{invoice.totalPrice.toFixed(2)}</td>
                         </tr>
                     </tbody>
                 </table>
