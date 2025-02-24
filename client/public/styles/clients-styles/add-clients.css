@@ -5,7 +5,11 @@
     margin-top: 20px;
     height: 100%;
 }
-
+.min-height-container {
+    float: left;
+    width: 100%;
+    min-height: 400px;
+}
 .add-counterparties-form-container h3,
 h4 {
     float: left;

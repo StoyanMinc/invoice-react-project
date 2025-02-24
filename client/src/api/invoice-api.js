@@ -1,4 +1,4 @@
-import { del, get, post } from "./requester.js";
+import { del, get, post, put } from "./requester.js";
 
 const BASE_URL = 'http://localhost:5001/invoices';
 
@@ -17,6 +17,13 @@ const getLatestInvoices = () => get(BASE_URL);
 
 const getOneInvoice = (invoiceId) => get(`${BASE_URL}/sales/${invoiceId}`);
 
+const deleteInvoce = (invoiceId) => get(`${BASE_URL}/sales/${invoiceId}/delete`);
+
+const updateInvoice = (invoiceId, values) => {
+    values.products = values.products.filter(p => p.name !== '' && p.qty !== '0');
+    put(`${BASE_URL}/${invoiceId}/edit`, values);
+}
+
 export const outInvoicecService = {
     createInvoice,
     getAllInvoices,
@@ -24,4 +31,7 @@ export const outInvoicecService = {
     getLastInvoice,
     getLastProforma,
     getOneInvoice,
+    deleteInvoce,
+    updateInvoice,
+
 };

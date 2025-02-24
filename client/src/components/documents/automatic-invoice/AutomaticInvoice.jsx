@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetAutomaticInvoices } from '../../../hooks/invoices-hooks/useAutomaticInvoices';
+import AutomaticInvoiceItem from './AutomaticInvoiceItem';
 
 export default function AutomaticInvoice() {
 
@@ -30,18 +31,7 @@ export default function AutomaticInvoice() {
                             </tr>
                         </thead>
                         <tbody>
-                            {invoices.map((invoice, index) =>
-                                <tr key={invoice._id}>
-                                    <td><input type="checkbox" /></td>
-                                    <td>{index + 1}</td>
-                                    <td>{invoice.dateOfAutomatization}</td>
-                                    <td>{invoice.client.nameOfClient}</td>
-                                    <td>{invoice.sumForPay}лв</td>
-                                    <td>{invoice.paymentType}</td>
-                                    <td>0</td>
-                                    <td>0 0 0 0</td>
-                                </tr>
-                            )}
+                            {invoices.map((invoice, index) => <AutomaticInvoiceItem key={invoice._id} invoice={invoice} invoiceNumber={index + 1}/>)}
                         </tbody>
                     </table>
                 </div>

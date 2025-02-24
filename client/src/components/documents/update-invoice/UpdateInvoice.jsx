@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import ReactDatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { useGetOneInvoice } from '../../../hooks/invoices-hooks/useOutInvoices';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGetAllClients } from '../../../hooks/client-hook/useClients';
+import formatDate from '../../../utils/formatDate';
+import calculateExpireDate from '../../../utils/calculateExpireDate';
+import { outInvoicecService } from '../../../api/invoice-api';
 
-import { outInvoicecService } from "../../../api/invoice-api.js";
-import formatDate, { formatDateFromReactDatePicker } from "../../../utils/formatDate.js";
-import calculateExpireDate from "../../../utils/calculateExpireDate.js";
-import { useGetAllClients } from "../../../hooks/client-hook/useClients.js";
 
-import { useGetLastInvoiceNumber, useGetLastProformaNumber } from "../../../hooks/invoices-hooks/useOutInvoices.js";
-
-export default function AddInvoice() {
-
-    const proformaNumber = useGetLastProformaNumber();
-    const invoiceNumber = useGetLastInvoiceNumber();
-    const clients = useGetAllClients();
+export default function UpdateInvoice() {
 
     const navigate = useNavigate();
 
-    const { register, handleSubmit, setValue, watch } = useForm({
+    const [products, setProducts] = useState([]);
+
+    const { invoiceId } = useParams();
+    const invoice = useGetOneInvoice(invoiceId);
+    const clients = useGetAllClients();
+
+    const { register, handleSubmit, watch, setValue, reset } = useForm({
         defaultValues: {
             client: '',
             mol: '',
@@ -29,42 +29,39 @@ export default function AddInvoice() {
             expireDate: '',
             paymentTerm: '',
             paymentType: '',
-            bankChoise: ''
+            bankChoise: '',
         }
     });
 
-    const documentType = watch('documentType');
-    const client = watch('client');
-
     useEffect(() => {
-        if (documentType === "фактура") {
-            setValue("invoiceNumber", invoiceNumber || "");
-        } else if (documentType === "проформа") {
-            setValue("invoiceNumber", proformaNumber || "");
-        } else {
-            setValue("invoiceNumber", "");
+        if (invoice) {
+            console.log(invoice.client?.nameOfClient);
+
+            reset({
+                client: invoice.client?.nameOfClient || '',
+                mol: invoice.client?.mol || '',
+                documentType: invoice.documentType || '',
+                invoiceNumber: invoice.invoiceNumber || '',
+                invoiceDate: invoice.invoiceDate || '',
+                paymentTerm: invoice.paymentTerm || '',
+                paymentType: invoice.paymentType || '',
+                bankChoise: invoice.bankChoise || '',
+
+            })
+            setProducts(invoice.products);
+
         }
-    }, [documentType, invoiceNumber, proformaNumber, setValue]);
+    }, [invoice]);
 
-
+    const client = watch('client');
     useEffect(() => {
         if (client) {
-            const selectedClient = clients.find(c => c._id === client);
+            const selectedClient = clients.find(c => c.nameOfClient === client);
             if (selectedClient) {
                 setValue('mol', selectedClient.mol || '');
             }
         }
     }, [client, clients, setValue]);
-
-
-
-    const [products, setProducts] = useState([{
-        name: '',
-        measure: 'br',
-        qty: 0,
-        unitPrice: 0,
-        to: 0
-    }]);
 
     const handleInputChange = (index, field, value) => {
         const newProducts = products.map((item, i) =>
@@ -80,38 +77,39 @@ export default function AddInvoice() {
                 to: 0
             });
         }
-
         setProducts(newProducts);
     };
 
-    const subTotal = products.reduce((total, product) => {
+    const subTotal = products?.reduce((total, product) => {
         return total + product.qty * product.unitPrice
     }, 0);
 
     const DDS = subTotal * 0.2;
     const totalPrice = subTotal + DDS;
 
-    const submitHandlder = async (values) => {
+
+    const submitHandler = async (values) => {
+
         const requestData = {
             ...values,
-            totalPrice,
-            products
-        };
-       
+            products,
+            totalPrice
+        }
+        const choosenClient = clients.find(c => c.nameOfClient === requestData.client)._id;
         try {
-            if (!requestData.client) {
-                return alert('Please choose client!');
+            if (invoice.invoiceDate !== requestData.invoiceDate) {
+                requestData.invoiceDate = formatDate(requestData.invoiceDate);
+                requestData.expireDate = calculateExpireDate(requestData.invoiceDate, requestData.paymentTerm);
             }
-            requestData.invoiceDate = formatDateFromReactDatePicker(requestData.invoiceDate);
-            requestData.expireDate = calculateExpireDate(requestData.invoiceDate, requestData.paymentTerm);
+            requestData.client = choosenClient;
             requestData.paymentStatus = 0;
-            await outInvoicecService.createInvoice(requestData);
+            const updatedInvoice = await outInvoicecService.updateInvoice(invoice._id, requestData);
+            console.log(updatedInvoice);
             navigate('/documents/sales');
         } catch (error) {
             console.log(error.message);
         }
-    };
-
+    }
     return (
         <div className="add-invoice-container">
 
@@ -120,14 +118,13 @@ export default function AddInvoice() {
                 <div className="add-invoice-form-contaier">
 
                     <h4>Добавяне на изходна фактура (12312312)</h4>
-                    <form action="POST" className="add-invoice-form" onSubmit={handleSubmit(submitHandlder)}>
+                    <form action="POST" className="add-invoice-form" onSubmit={handleSubmit((values) => submitHandler(values))}>
 
                         <div className="input-container col-3">
                             <label htmlFor="client">Клиент</label>
                             <select className="invoice-add-input" name="client" id="client" {...register('client')}>
-                                <option value="">Изберете клиент</option>
                                 {clients.map(client =>
-                                    <option key={client._id} value={client._id}>{client.nameOfClient}</option>
+                                    <option key={client._id} data-set-id={client._id} value={client.nameOfClient}>{client.nameOfClient}</option>
                                 )}
                             </select>
                         </div>
@@ -152,11 +149,7 @@ export default function AddInvoice() {
 
                         <div className="input-container col-2">
                             <label htmlFor="invoiceDate">Дата на фактура</label>
-                            <ReactDatePicker className="invoice-add-input"
-                                selected={watch('invoiceDate') ? new Date(watch('invoiceDate')) : null}
-                                onChange={(date) => setValue('invoiceDate', date)}
-                                dateFormat="dd/MM/yyyy"
-                                placeholderText="Изберете дата" />
+                            <input className="invoice-add-input" type="text" name="invoiceDate" id="invoiceDate" {...register('invoiceDate')} />
                         </div>
 
                         <div className="input-container col-3">
@@ -199,7 +192,8 @@ export default function AddInvoice() {
                             </tr>
                         </thead>
                         <tbody>
-                            {products.map((product, index) => (
+
+                            {products && products.map((product, index) => (
                                 <tr key={index}>
                                     <td className="table-n">{index + 1}</td>
 
@@ -229,18 +223,18 @@ export default function AddInvoice() {
                             ))}
                             <tr>
                                 <td colSpan={5}></td>
-                                <td className="table-n" >Субтотал</td>
-                                <td className="table-n">{subTotal.toFixed(2)}</td>
+                                <td className="table-n">Субтотал</td>
+                                <td className="table-n">{subTotal?.toFixed(2)}</td>
                             </tr>
                             <tr>
                                 <td colSpan={5}></td>
                                 <td className="table-n">ДДС 20%</td>
-                                <td className="table-n">{DDS.toFixed(2)}</td>
+                                <td className="table-n">{DDS?.toFixed(2)}</td>
                             </tr>
                             <tr>
                                 <td colSpan={5}></td>
                                 <td className="table-n">Общо ДДС</td>
-                                <td className="table-n">{totalPrice.toFixed(2)}</td>
+                                <td className="table-n">{totalPrice?.toFixed(2)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -248,9 +242,9 @@ export default function AddInvoice() {
             </div>
 
             <div className='add-invoice-footer'>
-                <button className="button-go-back" >Назад</button>
-                <button className="action-button" >Добавяне и печат</button>
-                <button className="action-button" type="button" onClick={handleSubmit(submitHandlder)}>Добавяне</button>
+                <button className="button-go-back">Назад</button>
+                <button className="action-button">Добавяне и печат</button>
+                <button className="action-button" type="button" onClick={handleSubmit(submitHandler)}>Добавяне</button>
             </div>
         </div>
     )

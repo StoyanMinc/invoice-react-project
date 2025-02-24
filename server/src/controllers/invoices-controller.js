@@ -34,4 +34,16 @@ invoicesController.get('/sales/:invoiceId', async (req, res) => {
     res.json(invoice);
 });
 
+invoicesController.get('/sales/:invoiceId/delete', async (req, res) => {
+    const { invoiceId } = req.params;
+    await invoiceService.deleteInvoice(invoiceId);
+    res.json({ message: 'ok' });
+});
+
+invoicesController.put('/:invoiceId/edit', async (req, res) => {
+    const {invoiceId} = req.params;
+    const updatedInvoice = await invoiceService.updateInvoice(invoiceId, req.body);
+    res.json(updatedInvoice);
+});
+
 export default invoicesController;

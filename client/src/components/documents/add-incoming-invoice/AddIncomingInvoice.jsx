@@ -1,17 +1,18 @@
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
 
 import { incomingInvoicecService } from '../../../api/incoming-invoice-api';
 import calculateExpireDate from '../../../utils/calculateExpireDate';
-import formatDate from '../../../utils/formatDate';
+import formatDate, { formatDateFromReactDatePicker } from '../../../utils/formatDate';
 
 export default function AddIncomingInvoice() {
 
     const navigate = useNavigate();
     const [fileBase64, setFileBase64] = useState("");
 
-    const { register, handleSubmit, setValue } = useForm({
+    const { register, handleSubmit, setValue, watch } = useForm({
         defaultValues: {
             supplier: '',
             invoiceNumber: 0,
@@ -41,8 +42,8 @@ export default function AddIncomingInvoice() {
 
     const submitHandlder = async (values) => {
         try {
+            values.invoiceDate = formatDateFromReactDatePicker(values.invoiceDate);
             values.expireDate = calculateExpireDate(values.invoiceDate, values.paymentTerm);
-            values.invoiceDate = formatDate(values.invoiceDate);
             values.invoiceFileHandler = fileBase64;
             values.paymentStatus = 0;
             await incomingInvoicecService.createInvoice(values);
@@ -72,9 +73,14 @@ export default function AddIncomingInvoice() {
                         <input className="invoice-add-input" type="number" name="invoiceNumber" id="invoiceNumber" {...register('invoiceNumber')} />
                     </div>
 
-                    <div className="input-container col-3">
+                    <div className="input-container col-2">
                         <label htmlFor="invoiceDate">Дата на фактура</label>
-                        <input className="invoice-add-input" type="text" name="invoiceDate" id="invoiceDate" {...register('invoiceDate')} />
+                        <ReactDatePicker className="invoice-add-input"
+                            selected={watch('invoiceDate') ? new Date(watch('invoiceDate')) : null}
+                            onChange={(date) => setValue('invoiceDate', date)}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Изберете дата" />
+                        {/* <input className="invoice-add-input" type="text" name="invoiceDate" id="invoiceDate" {...register('invoiceDate')} /> */}
                     </div>
 
 

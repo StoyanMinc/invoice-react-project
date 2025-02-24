@@ -7,6 +7,7 @@ import fs from 'fs';
 import createHTML from 'create-html';
 import handlebars from 'handlebars';
 import puppeteer from 'puppeteer';
+import nodemailer from 'nodemailer'
 
 import router from './router.js';
 import { automaticInvoiceService } from './services/automatic-invoice-service.js';
@@ -71,9 +72,10 @@ setInterval(async () => {
                 } else {
                     console.log("[AUTOMATIC INVOICES] No invoice found, creating invoice...")
                     var lastInvoice = await invoiceService.getLastInvoice('фактура');
-                    if (lastInvoice.length == 0) {
+                    if (lastInvoice.length === 0) {
                         lastInvoice = [{ 'invoiceNumber': '300000001' }];
                     }
+
                     const newInvoiceNumber = lastInvoice[0].invoiceNumber + 1;
                     const expireDate = calculateExpireDate(formattedDate, invoice.paymentTerm);
                     const requestData = {
@@ -113,9 +115,10 @@ setInterval(async () => {
                         body: '<div class="header"> <div class="info"> <span>ФАКТУРА</span> <span id="original">КОПИЕ</span> </div> <img class="logo" height="85px" width="220px" />  </div> <div class="first-row"> <div class="left"> <span class="row-title">Доставчик/изпълнител</span> <div class="input-row"> <span class="label">Име</span> <span class="value">"Хай Тек Електроника" ЕООД</span> </div><div class="input-row"> <span class="label">Държава</span> <span class="value">България</span> </div><div class="input-row"> <span class="label">Гр./с.</span> <span class="value">Пловдив</span> </div><div class="input-row"> <span class="label">Адрес</span> <span class="value">ж.к "Тракия" бл.193, вх.в, ет.2, офис 4</span> </div><div class="input-row"> <span class="label">Идент.№ ДДС</span> <span class="value">BG115752903</span> </div><div class="input-row"> <span class="label">ЕИК/ЕГН</span> <span class="value">115752903</span> </div><div class="input-row"> <span class="label">МОЛ</span> <span class="value">Тодор Тодоров</span> </div></div> <div class="left"> <span class="row-title">Получател/възложител</span> <div class="input-row"> <span class="label">Име</span> <span class="value">' + invoice.client.nameOfClient + '</span> </div><div class="input-row"> <span class="label">Държава</span> <span class="value">Република България</span> </div><div class="input-row"> <span class="label">Гр./с.</span> <span class="value">' + invoice.client.city + '</span> </div><div class="input-row"> <span class="label">Адрес</span> <span class="value">' + invoice.client.address + '</span> </div><div class="input-row"> <span class="label">Идент.№ ДДС</span> <span class="value">BG' + invoice.client.identN + '</span> </div><div class="input-row"> <span class="label">ЕИК/ЕГН</span> <span class="value">' + invoice.client.eikEgn + '</span> </div><div class="input-row"> <span class="label">МОЛ</span> <span class="value">' + invoice.client.mol + '</span> </div></div></div>     <div class="first-row"> <div class="left"> <span class="row-title">Информация за фактурата</span> <div class="input-row"> <span class="label">Фактура №</span> <span class="value">' + newInvoiceNumber + '</span> </div><div class="input-row"> <span class="label">Дата на фактурата</span> <span class="value">' + formattedDate + '</span> </div><div class="input-row"> <span class="label">Срок за плащане</span> <span class="value">' + expireDate + '</span> </div></div><div class="left"> <span class="row-title">Инфорамция за плащането</span> <div class="input-row"> <span class="label">Валута</span> <span class="value">BGN</span> </div><div class="input-row"> <span class="label">Начин на плащане</span> <span class="value">' + invoice.paymentType + '</span> </div><div class="input-row"> <span class="label">Банка</span> <span class="value">DSK</span> </div><div class="input-row"> <span class="label">BIC</span> <span class="value">BGSS12312312</span> </div><div class="input-row"> <span class="label">IBAN</span> <span class="value">BG12312312313123</span> </div></div></div>' + products_html + ' <div class="signatures"> <div> <span>Получател</span> <div class="field"> <span>подпис и печат</span> </div></div><div> <span>Съставил</span> <div class="field"> <span>подпис и печат</span> </div></div></div>'
                     })
 
+                    const clientEmail = requestData.client.email;
                     fs.writeFile('invoice.html', invoice_html, function async(err) {
                         if (err) console.log(err)
-                        processInvoice(newInvoiceNumber);
+                        processInvoice(newInvoiceNumber, clientEmail);
                     })
                     await invoiceService.createInvoice(requestData);
                     console.log("No invoice created already");
@@ -128,7 +131,7 @@ setInterval(async () => {
     }
 }, 5000);
 
-async function processInvoice(invoice_num) {
+async function processInvoice(invoice_num, clientEmail) {
     var dataBinding = {}
 
     var templateHtml = fs.readFileSync(path.join(process.cwd(), 'invoice.html'), 'utf8');
@@ -157,6 +160,39 @@ async function processInvoice(invoice_num) {
     });
     await page.pdf(options);
     await browser.close();
+
+    let transport = nodemailer.createTransport({
+        host: 'hitech-bg.com',
+        port: 587,
+        secure: false,
+        ignoreTLS: true,
+        auth: {
+            user: 'office@hitech-bg.com',
+            pass: 'H1272334te4'
+        }
+    });
+
+    const message = {
+        from: 'office@hitech-bg.com', // Sender address
+        to: clientEmail,         // List of recipients
+        subject: 'Издадена Фактура №' + invoice_num, // Subject line
+        html: '<span style="margin-top:10px;float:left;width:400px;margin-right:calc(100% - 400px);">Това е автоматично съобщение изпратено от Автоматичната система за таксуване на Хай Тек Електорника ЕООД.</span> <span style="margin-top:10px;float:left;width:400px;margin-right:calc(100% - 400px);">За допълнителни информация, може да се свържете с нас на <a href="mailto:office@hitech-bg.com">office@hitech-bg.com или +359 65 23 34</span></br></br> <span style="margin-top:10px;float:left;width:400px;margin-right:calc(100% - 400px);">Благодарим ви, че сте наши клиенти!</span> </br></br> <span style="margin-top:20px;float:left;width:400px;margin-right:calc(100% - 400px);">Поздрави</span></br><span style="float:left;width:400px;margin-right:calc(100% - 400px);font-weight:bold;">Екипът на Хай Тек Електроника ЕООД</span>',
+        attachments: [
+            {   // file on disk as an attachment
+                filename: 'invoice' + invoice_num + ".pdf",
+                path: './invoice' + invoice_num + '.pdf'
+                // path: './invoices/invoice' + invoice + '.pdf' // stream this file
+            }
+        ]
+    };
+
+    transport.sendMail(message, function (err, info) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(info);
+        }
+    });
 
 }
 
