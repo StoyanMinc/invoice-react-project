@@ -97,7 +97,7 @@ export default function AddInvoice() {
             totalPrice,
             products
         };
-       
+
         try {
             if (!requestData.client) {
                 return alert('Please choose client!');
@@ -155,7 +155,7 @@ export default function AddInvoice() {
                             <ReactDatePicker className="invoice-add-input"
                                 selected={watch('invoiceDate') ? new Date(watch('invoiceDate')) : null}
                                 onChange={(date) => setValue('invoiceDate', date)}
-                                dateFormat="dd/MM/yyyy"
+                                dateFormat="dd.MM.yyyy"
                                 placeholderText="Изберете дата" />
                         </div>
 

@@ -5,7 +5,7 @@ import ReactDatePicker from 'react-datepicker';
 
 import { incomingInvoicecService } from '../../../api/incoming-invoice-api';
 import calculateExpireDate from '../../../utils/calculateExpireDate';
-import formatDate, { formatDateFromReactDatePicker } from '../../../utils/formatDate';
+import { formatDateFromReactDatePicker } from '../../../utils/formatDate';
 
 export default function AddIncomingInvoice() {
 
@@ -80,7 +80,6 @@ export default function AddIncomingInvoice() {
                             onChange={(date) => setValue('invoiceDate', date)}
                             dateFormat="dd/MM/yyyy"
                             placeholderText="Изберете дата" />
-                        {/* <input className="invoice-add-input" type="text" name="invoiceDate" id="invoiceDate" {...register('invoiceDate')} /> */}
                     </div>
 
 
@@ -129,7 +128,6 @@ export default function AddIncomingInvoice() {
 
             <div className='add-invoice-footer'>
                 <button className="button-go-back" >Назад</button>
-                {/* <button className="action-button" >Добавяне и печат</button> */}
                 <button className="action-button" type="button" onClick={handleSubmit(submitHandlder)}>Добавяне</button>
             </div>
         </div>

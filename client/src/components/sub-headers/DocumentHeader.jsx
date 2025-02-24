@@ -13,7 +13,7 @@ export default function DocumentsHeader() {
                     <li><Link className={currentPath === 'sales' ? 'active' : ''} to='/documents/sales'> продажби</Link></li>
                     <li><Link className={currentPath === 'expenses' ? 'active' : ''} to='/documents/expenses'>разходи</Link></li>
                     <li><Link className={currentPath === 'automatic-invoice' ? 'active' : ''} to={'/documents/automatic-invoice'}>автоматични таксувания</Link></li>
-                    <li><Link to={'/documents/offers'}>оферти</Link></li>
+                    <li><Link className={currentPath === 'offers' ? 'active' : ''} to={'/documents/offers'}>оферти</Link></li>
                     <li><Link to={'/documents/bil-of-lading'}>товарителници</Link></li>
                 </ul>
             </nav>

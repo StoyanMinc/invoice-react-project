@@ -15,6 +15,7 @@ import AutomaticInvoice from './components/documents/automatic-invoice/Automatic
 import PrintInvoice from './components/documents/print-invoice/PrintInvoice';
 import AddCounterparties from './components/counterparties/AddCounterparties';
 import UpdateInvoice from './components/documents/update-invoice/UpdateInvoice';
+import AddOffer from './components/documents/add-offer/AddOffer';
 function App() {
     return (
         <div className="container">
@@ -29,6 +30,7 @@ function App() {
                     <Route path='/documents/expenses/add-incoming-invoice' element={<AddIncomingInvoice />} />
                     <Route path='/documents/automatic-invoice' element={<AutomaticInvoice />} />
                     <Route path='/documents/automatic-invoice/add-automatic-invoice' element={<AddAutomaticInvoice />} />
+                    <Route path='/documents/offers' element={<AddOffer/>} />
                     <Route path='/counterparties' element={<Counterparties />} />
                     <Route path='/counterparties/add-counterparties' element={<AddCounterparties />} />
                     <Route path='/warehouse' element={<Warehouse />} />

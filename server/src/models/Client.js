@@ -12,7 +12,7 @@ const clientSchema = new Schema({
     email: String,
     phoneNumber: String,
     webSite: String
-});
+}, {timestamps: true});
 
 const Client = model('Client', clientSchema);
 

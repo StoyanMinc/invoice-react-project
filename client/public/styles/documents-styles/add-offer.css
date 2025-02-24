@@ -1,0 +1,91 @@
+.add-offer-container {
+    float: left;
+    margin: 20px;
+    border: 1px solid;
+    width: calc(100% - 40px);
+    height: calc(100% - 100px);
+}
+
+.add-offer-container h3, .add-offer-form-container {
+    padding: 0 15px;
+    width: calc(100% - 30px);
+}
+
+.add-offer-container h3 {
+    float: left;
+    margin-top: 15px;
+}
+
+.add-offer-container .add-offer-options {
+    float: left;
+    border-top: 1px solid;
+    width: 100%;
+    border-bottom: 1px solid;
+    margin-top: 10px;
+    background-color: white;
+    padding: 5px 0;
+}
+
+.offer-spans-container {
+    float: left;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-left: 15px;
+    height: 31px;
+    line-height: 30px;
+}
+
+.offer-spans-container span {
+    padding: 5px 10px;
+}
+
+.active-offer-span {
+    background-color: #539bff;
+    color: white;
+}
+
+.add-offer-container .add-offer-form-container {
+    float: left;
+    height: 50%;
+}
+
+.add-offer-container .add-offer-form-container form {
+    float: left;
+    width: 100%
+}
+
+.add-offer-footer {
+    float: left;
+    width: 100%;
+    height: 30px;
+    text-align: right;
+    line-height: 30px;
+}
+
+.add-offer-footer button {
+    padding: 5px 10px;
+    margin-left: 15px;
+    border: none;
+    border-radius: 2px;
+}
+
+.offer-add-button {
+    background-color: #539bff;
+    color: white;
+}
+
+.add-offer-table-container {
+    float: left;
+    width: 100%;
+    margin-bottom: 100px;
+    height: calc(100% - 350px);
+}
+.add-offer-table-container{
+
+    float: left;
+    margin: 0 15px;
+    width: calc(100% - 30px);
+    border: 1px solid black;
+    text-align: left;
+    border-collapse: collapse;
+}
