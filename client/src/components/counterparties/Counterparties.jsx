@@ -1,11 +1,20 @@
-import {useNavigate} from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useGetAllClients } from '../../hooks/client-hook/useClients';
+import { clientService } from '../../api/client-api';
 
 export default function Counterparties() {
-
+    const navigate = useNavigate();
     const clients = useGetAllClients();
 
-    const navigate = useNavigate();
+    const deleteClientHandler = async (clientId) => {
+        try {
+            await clientService.deleteClient(clientId);
+            navigate('/counterparties');
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     return (
         <div className="counterparties-container">
             <div className="counterparties-container-header">
@@ -28,13 +37,17 @@ export default function Counterparties() {
                     </thead>
                     <tbody>
                         {clients.map(client =>
-                        <tr key={client._id}>
-                            <td>{client.nameOfClient}</td>
-                            <td>{client.mol}</td>
-                            <td>{client.typeOfClinet}</td>
-                            <td>{client.eikEgn}</td>
-                            <td>0 0</td>
-                        </tr>
+                            <tr key={client._id}>
+                                <td>{client.nameOfClient}</td>
+                                <td>{client.mol}</td>
+                                <td>{client.typeOfClinet}</td>
+                                <td>{client.eikEgn}</td>
+                                <td>
+                                    <Link to={`/counterparties/${client._id}/edit`} className="action-icon edit-icon"></Link>
+                                    <button className="action-icon bin-icon" onClick={() => deleteClientHandler(client._id)} ></button>
+
+                                </td>
+                            </tr>
                         )}
                     </tbody>
                 </table>

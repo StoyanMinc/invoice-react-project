@@ -12,4 +12,17 @@ export function useGetAllClients() {
     }, []);
 
     return clients;
+};
+
+export function useGetOneClient (clientId) {
+    const [client, setClient] = useState({});
+
+    useEffect(() => {
+        (async () => {
+            const result = await clientService.getOneClient(clientId);
+            setClient(result);
+        })();
+    },[]);
+
+    return client;
 }

@@ -3,10 +3,10 @@ import { outInvoicecService } from "../../../api/invoice-api.js";
 
 export default function SalesInvoiceItem({ invoice }) {
     const navigate = useNavigate();
-      const deleteInvoiceHandler = async (invoiceId) => {
-            await outInvoicecService.deleteInvoce(invoiceId);
-            navigate('/documents/sales');
-        }
+    const deleteInvoiceHandler = async (invoiceId) => {
+        await outInvoicecService.deleteInvoce(invoiceId);
+        navigate('/documents/sales');
+    }
     return (
         <tr key={invoice._id}>
             <td>{invoice.invoiceNumber}</td>

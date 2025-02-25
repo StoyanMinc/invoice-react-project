@@ -1,0 +1,58 @@
+.offers-container {
+    float: left;
+    width: calc(100% - 50px);
+    height: calc(100% - 100px);
+    margin: 20px 25px;
+    padding: 0 15px;
+    border: 1px solid #E5E5E5;
+    background-color: white;
+}
+
+.offers-title-container {
+    float: left;
+    width: 100%;
+    padding: 5px 0;
+    line-height: 30px;
+}
+
+.offers-title-container h3 {
+    float: left;
+}
+
+.offers-options {
+    float: right;
+}
+
+.offers-search {
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.offer-table-container {
+    float: left;
+    width: 100%;
+}
+
+.offer-table-container table {
+    float: left;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid #E5E5E5;
+    border-collapse: collapse;
+}
+
+.offer-table-container table thead {
+    background-color: #F9FBFA;
+
+}
+
+.offer-table-container table th {
+    padding: 10px 0;
+}
+
+.offer-table-container table td {
+    border: 1px solid #E5E5E5;
+    padding: 10px 0;
+}

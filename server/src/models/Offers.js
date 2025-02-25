@@ -9,7 +9,7 @@ const offerSchema = new Schema({
     products: [],
     client: {
         type: Types.ObjectId,
-        ref: 'User'
+        ref: 'Client'
     },
 }, {timestamps: true});
 

@@ -205,3 +205,10 @@
     background-image: url('../../assets/trash-bin.svg');
 }
 
+.action-icon.tick-icon {
+    background-image: url('../../assets/tick.svg');
+}
+
+.action-icon.traffic-icon {
+    background-image: url('../../assets/traffic-signal.svg');
+}

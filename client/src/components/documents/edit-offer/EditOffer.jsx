@@ -4,9 +4,12 @@ import { useGetAllClients } from '../../../hooks/client-hook/useClients';
 import { useEffect, useState } from 'react';
 import { formatDateFromReactDatePicker } from '../../../utils/formatDate';
 import { offerService } from '../../../api/offer-api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetOneOffer } from '../../../hooks/offer-hook/userOffers';
 
-export default function AddOffer() {
+export default function EditOffer() {
+    const { offerId } = useParams();
+    const offer = useGetOneOffer(offerId);
     const navigate = useNavigate();
     const [currentTab, setCurrentTab] = useState('basic');
 
@@ -29,6 +32,22 @@ export default function AddOffer() {
             title: '',
         }
     });
+
+    useEffect(() => {
+        if (offer) {
+            if (offer.offerDate) {
+                const [day, month, year] = offer.offerDate.split('.');
+                setValue('offerDate', new Date(`${year}-${month}-${day}`));
+
+            }
+            setValue('client', offer.client?._id || '');
+            setValue('offerType', offer.offerType || '');
+            setValue('title', offer.title || '');
+        }
+        if (offer.products && offer.products.length > 0) {
+            setProducts(offer.products);
+        }
+    }, [offer, setValue]);
 
     const client = watch('client');
     useEffect(() => {
@@ -65,7 +84,7 @@ export default function AddOffer() {
     const DDS = subTotal * 0.2;
     const totalPrice = subTotal + DDS;
 
-    const submitHandlder = async (values) => {
+    const submitEditHandler = async (values) => {
         const requestData = {
             ...values,
             totalPrice,
@@ -74,18 +93,18 @@ export default function AddOffer() {
 
         try {
             requestData.offerDate = formatDateFromReactDatePicker(requestData.offerDate);
-            await offerService.createOffer(requestData);
+            const editedOffer = await offerService.editOffer(offer._id, requestData);
+            console.log(editedOffer);
             navigate('/documents/offers');
         } catch (error) {
-
+            console.log(error.message);
         }
-
-        console.log(requestData);
     };
 
     const changeTabHandler = (value) => {
         setCurrentTab(value);
     }
+
     return (
         <div className="add-offer-container">
             <div className="min-height-container">
@@ -101,7 +120,7 @@ export default function AddOffer() {
 
                 {currentTab === 'basic' &&
                     <div className="add-offer-form-container">
-                        <form action="POST" onSubmit={handleSubmit(submitHandlder)}>
+                        <form action="POST" onSubmit={handleSubmit(submitEditHandler)}>
                             <div className="input-container col-3">
                                 <label htmlFor="client">Клиент</label>
                                 <select className="invoice-add-input" name="client" id="client" {...register('client')}>
@@ -203,7 +222,7 @@ export default function AddOffer() {
 
                 <div className='add-offer-footer'>
                     <button className="offer-go-back" >Назад</button>
-                    <button className="offer-add-button" type="button" onClick={handleSubmit(submitHandlder)}>Добавяне</button>
+                    <button className="offer-add-button" type="button" onClick={handleSubmit(submitEditHandler)}>Редактиране</button>
                 </div>
             </div>
         </div>
