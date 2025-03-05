@@ -1,15 +1,25 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useGetAllClients } from '../../hooks/client-hook/useClients';
 import { clientService } from '../../api/client-api';
+import { useEffect, useState } from 'react';
 
 export default function Counterparties() {
     const navigate = useNavigate();
+    
+    const [clientToShow, setClientToShow] = useState([]);
     const clients = useGetAllClients();
 
+    console.log(clientToShow);
+    useEffect(() => {
+        setClientToShow(clients);
+        console.log('render');
+    }, [clients])
+    
     const deleteClientHandler = async (clientId) => {
         try {
             await clientService.deleteClient(clientId);
-            navigate('/counterparties');
+            setClientToShow(clients => clients.filter(client => client._id !== clientId));
+            // navigate('/counterparties');
         } catch (error) {
             console.log(error.message);
         }
@@ -36,7 +46,7 @@ export default function Counterparties() {
                         </tr>
                     </thead>
                     <tbody>
-                        {clients.map(client =>
+                        {clientToShow.map(client =>
                             <tr key={client._id}>
                                 <td>{client.nameOfClient}</td>
                                 <td>{client.mol}</td>

@@ -12,7 +12,7 @@ export default function SalesInvoiceItem({ invoice }) {
             <td>{invoice.invoiceNumber}</td>
             <td>{invoice.invoiceDate}</td>
             <td>{invoice.documentType}</td>
-            <td>{invoice.client.nameOfClient}</td>
+            <td>{invoice.client?.nameOfClient}</td>
             <td><span>{invoice.totalPrice.toFixed(2)}</span>лв</td>
             <td>{invoice.paymentType}</td>
             {invoice.paymentStatus === 0
