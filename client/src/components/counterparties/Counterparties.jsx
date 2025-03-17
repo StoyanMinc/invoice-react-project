@@ -47,7 +47,7 @@ export default function Counterparties() {
                             <tr key={client._id}>
                                 <td>{client.nameOfClient}</td>
                                 <td>{client.mol}</td>
-                                <td>{client.typeOfClinet}</td>
+                                <td>{client.typeOfClient}</td>
                                 <td>{client.eikEgn}</td>
                                 <td>
                                     <Link to={`/counterparties/${client._id}/edit`} className="action-icon edit-icon"></Link>
