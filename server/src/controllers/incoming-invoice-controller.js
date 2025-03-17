@@ -3,7 +3,7 @@ import { incomingInvoiceService } from "../services/incoming-invoice-service.js"
 import fs from 'fs';
 import path from 'path';
 
-const incomingInvoiceController  = Router();
+const incomingInvoiceController = Router();
 
 incomingInvoiceController.get('/', async (req, res) => {
     const invoices = await incomingInvoiceService.getLastInvoices();
@@ -28,6 +28,21 @@ incomingInvoiceController.post('/create-invoice', async (req, res) => {
 
     const createtInvoice = await incomingInvoiceService.createInvoice(invoiceData);
     res.json(createtInvoice);
+});
+
+incomingInvoiceController.delete('/expenses/:invoiceId/delete', async (req, res) => {
+    const { invoiceId } = req.params;
+    try {
+        const invoice = await incomingInvoiceService.getOneInvoice(invoiceId);
+        console.log(invoice)
+        const absolutePath = path.resolve('src/' + invoice.invoiceFile);
+        fs.unlink(absolutePath, (err) => { console.log(err); });
+        await incomingInvoiceService.deleteInvoice(invoiceId);
+        res.json({ message: 'ok' });
+
+    } catch (error) {
+        res.json({ error });
+    }
 });
 
 export default incomingInvoiceController;

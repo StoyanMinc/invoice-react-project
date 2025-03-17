@@ -35,6 +35,7 @@ invoicesController.get('/sales/:invoiceId', async (req, res) => {
 });
 
 invoicesController.get('/sales/:invoiceId/delete', async (req, res) => {
+    console.log("DELETED INVOICE");
     const { invoiceId } = req.params;
     await invoiceService.deleteInvoice(invoiceId);
     res.json({ message: 'ok' });

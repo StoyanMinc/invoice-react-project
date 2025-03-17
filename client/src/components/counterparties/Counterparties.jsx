@@ -9,17 +9,14 @@ export default function Counterparties() {
     const [clientToShow, setClientToShow] = useState([]);
     const clients = useGetAllClients();
 
-    console.log(clientToShow);
     useEffect(() => {
         setClientToShow(clients);
-        console.log('render');
     }, [clients])
     
     const deleteClientHandler = async (clientId) => {
         try {
             await clientService.deleteClient(clientId);
             setClientToShow(clients => clients.filter(client => client._id !== clientId));
-            // navigate('/counterparties');
         } catch (error) {
             console.log(error.message);
         }
@@ -55,7 +52,6 @@ export default function Counterparties() {
                                 <td>
                                     <Link to={`/counterparties/${client._id}/edit`} className="action-icon edit-icon"></Link>
                                     <button className="action-icon bin-icon" onClick={() => deleteClientHandler(client._id)} ></button>
-
                                 </td>
                             </tr>
                         )}
