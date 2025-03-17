@@ -6,7 +6,7 @@ const getAllClients = () => Client.find();
 
 const getOneClient = (clientId) => Client.findById(clientId);
 
-const updateClient = (clientId, clientData) => Client.findByIdAndUpdate(clientId, clientData);
+const updateClient = (clientId, clientData) => Client.findByIdAndUpdate(clientId, clientData, {new: true});
 
 const deleteClient = (clientId) => Client.findByIdAndDelete(clientId);
 
