@@ -15,6 +15,18 @@ incomingInvoiceController.get('/expenses', async (req, res) => {
     res.json(invoices);
 });
 
+incomingInvoiceController.get('/expenses/:invoiceId', async (req, res) => {
+    const { invoiceId } = req.params;
+    try {
+        const invoiceData = await incomingInvoiceService.getOneInvoice(invoiceId);
+        console.log(invoiceData)
+        res.json(invoiceData);
+
+    } catch (error) {
+        res.json({ error });
+    }
+});
+
 incomingInvoiceController.post('/create-invoice', async (req, res) => {
     const invoiceData = req.body;
 
@@ -30,6 +42,19 @@ incomingInvoiceController.post('/create-invoice', async (req, res) => {
     res.json(createtInvoice);
 });
 
+incomingInvoiceController.put('/:invoiceId/edit', async (req, res) => {
+    const { invoiceId } = req.params;
+    try {
+        const editedInvoice = await incomingInvoiceService.updateInvoice(invoiceId, req.body);
+        console.log(editedInvoice)
+        res.json(editedInvoice)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({ error });
+    }
+
+});
+
 incomingInvoiceController.delete('/expenses/:invoiceId/delete', async (req, res) => {
     const { invoiceId } = req.params;
     try {
@@ -41,7 +66,7 @@ incomingInvoiceController.delete('/expenses/:invoiceId/delete', async (req, res)
         res.json({ message: 'ok' });
 
     } catch (error) {
-        res.json({ error });
+        res.status(400).json({ error });
     }
 });
 
