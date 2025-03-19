@@ -65,9 +65,9 @@ setInterval(async () => {
         if (automaticInvoiceToSend.length > 0) {
             automaticInvoiceToSend.forEach(async (invoice) => {
                 const { mol, totalPrice } = invoice;
-                console.log("[AUTOMATIC INVOICING] Checking for automatic invoices...")
+                // console.log("[AUTOMATIC INVOICING] Checking for automatic invoices...")
                 var matchingInvoices = await invoiceService.getReleasedInvoices(formattedDate, mol, totalPrice);
-                console.log("[AUTOMATIC INVOICES] Already found invoice, skipping creating...")
+                // console.log("[AUTOMATIC INVOICES] Already found invoice, skipping creating...")
                 if (matchingInvoices.length > 0) {
                 } else {
                     console.log("[AUTOMATIC INVOICES] No invoice found, creating invoice...")
