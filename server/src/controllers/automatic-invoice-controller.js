@@ -4,8 +4,18 @@ import { automaticInvoiceService } from '../services/automatic-invoice-service.j
 const automaticInvoiceController = Router();
 
 automaticInvoiceController.get('/', async (req, res) => {
-        const invoices = await automaticInvoiceService.getAllInvoices();
-        res.json(invoices);
+    const invoices = await automaticInvoiceService.getAllInvoices();
+    res.json(invoices);
+});
+
+automaticInvoiceController.get('/:invoiceId', async (req, res) => {
+    const { invoiceId } = req.params;
+    try {
+        const invoiceData = await automaticInvoiceService.getOneInvoice(invoiceId);
+        res.json(invoiceData);
+    } catch (error) {
+        res.status(400).json({ error: 'Cannot get invoiceData' });
+    }
 });
 
 automaticInvoiceController.post('/', async (req, res) => {
