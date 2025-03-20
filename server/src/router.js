@@ -4,6 +4,7 @@ import incomingInvoiceController from "./controllers/incoming-invoice-controller
 import automaticInvoiceController from "./controllers/automatic-invoice-controller.js";
 import clientController from "./controllers/client-controller.js";
 import offerController from "./controllers/offer-controller.js";
+import partController from "./controllers/part-controller.js";
 import warehouseController from "./controllers/warehouse-controller.js";
 
 const router = Router();
@@ -13,6 +14,7 @@ router.use('/incoming-invoices', incomingInvoiceController);
 router.use('/automatic-invoices', automaticInvoiceController);
 router.use('/clients', clientController);
 router.use('/offers', offerController);
+router.use('/parts', partController);
 router.use('/warehouses', warehouseController)
 
 export default router;
