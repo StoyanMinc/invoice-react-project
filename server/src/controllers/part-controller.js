@@ -33,6 +33,16 @@ partController.get('/:partId', async (req, res) => {
     }
 });
 
+partController.put('/:partId', async (req, res) => {
+    const { partId } = req.params;
+    try {
+        const result = await partService.editPart(partId, req.body);
+        res.json(result);
+    } catch (error) {
+        res.status(400).res.json({ error });
+    }
+});
+
 partController.delete('/:partId', async (req, res) => {
     const { partId } = req.params;
     try {
