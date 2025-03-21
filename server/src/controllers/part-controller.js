@@ -12,10 +12,21 @@ partController.get('/', async (req, res) => {
     }
 });
 
-partController.get('/:storageId', async (req, res) => {
+partController.get('/:storageId/storage', async (req, res) => {
     const { storageId } = req.params;
     try {
         const result = await partService.getSpecificOption(storageId);
+        res.json(result);
+    } catch (error) {
+        res.status(400).res.json({ error });
+    }
+});
+
+partController.get('/:partId', async (req, res) => {
+    const { partId } = req.params;
+
+    try {
+        const result = await partService.getOnePart(partId);
         res.json(result);
     } catch (error) {
         res.status(400).res.json({ error });
@@ -26,7 +37,7 @@ partController.delete('/:partId', async (req, res) => {
     const { partId } = req.params;
     try {
         await partService.deletePart(partId);
-        res.json({message: 'successfuly delete'});
+        res.json({ message: 'successfuly delete' });
     } catch (error) {
         res.status(400).res.json({ error });
     }
